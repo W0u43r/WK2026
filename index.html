@@ -406,8 +406,9 @@ async function fetchLive() {
   if (!key) return [];
   try {
     const r = await fetch(
-      `https://api.football-data.org/v4/competitions/2000/matches?status=LIVE,FINISHED,SCHEDULED`,
+      `https://vercel.com/w0u43rs-projects/wk-2026`,
       { headers: { 'X-Auth-Token': key } }
+   
     );
     if (!r.ok) return [];
     const d = await r.json();
