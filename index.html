@@ -345,6 +345,114 @@ function berekenStand() {
 }
 
 /* ══════════════════════════════════════════
+   VASTE WK 2026 WEDSTRIJDEN (fallback)
+   Tijden in UTC — worden omgezet naar lokale tijd
+══════════════════════════════════════════ */
+function wk2026Wedstrijden() {
+  const w = [
+    // ── GROEP A ──
+    {id:20001,dt:'2026-06-11T19:00:00Z',g:'A',t:{n:'Mexico',v:'🇲🇽'},u:{n:'Zuid-Afrika',v:'🇿🇦'},st:'Estadio Azteca · Mexico-Stad'},
+    {id:20002,dt:'2026-06-12T04:00:00Z',g:'A',t:{n:'Zuid-Korea',v:'🇰🇷'},u:{n:'Tsjechië',v:'🇨🇿'},st:'BMO Field · Toronto'},
+    {id:20003,dt:'2026-06-18T20:00:00Z',g:'A',t:{n:'Tsjechië',v:'🇨🇿'},u:{n:'Zuid-Afrika',v:'🇿🇦'},st:'BC Place · Vancouver'},
+    {id:20004,dt:'2026-06-19T00:00:00Z',g:'A',t:{n:'Mexico',v:'🇲🇽'},u:{n:'Zuid-Korea',v:'🇰🇷'},st:'AT&T Stadium · Dallas'},
+    {id:20005,dt:'2026-06-25T00:00:00Z',g:'A',t:{n:'Tsjechië',v:'🇨🇿'},u:{n:'Mexico',v:'🇲🇽'},st:'Levi\'s Stadium · San Francisco'},
+    {id:20006,dt:'2026-06-25T00:00:00Z',g:'A',t:{n:'Zuid-Afrika',v:'🇿🇦'},u:{n:'Zuid-Korea',v:'🇰🇷'},st:'MetLife Stadium · New York/NJ'},
+    // ── GROEP B ──
+    {id:20007,dt:'2026-06-12T20:00:00Z',g:'B',t:{n:'Canada',v:'🇨🇦'},u:{n:'Bosnië-Herz.',v:'🇧🇦'},st:'BMO Field · Toronto'},
+    {id:20008,dt:'2026-06-13T00:00:00Z',g:'B',t:{n:'Qatar',v:'🇶🇦'},u:{n:'Zwitserland',v:'🇨🇭'},st:'Arrowhead Stadium · Kansas City'},
+    {id:20009,dt:'2026-06-18T23:00:00Z',g:'B',t:{n:'Bosnië-Herz.',v:'🇧🇦'},u:{n:'Zwitserland',v:'🇨🇭'},st:'Gillette Stadium · Boston'},
+    {id:20010,dt:'2026-06-19T02:00:00Z',g:'B',t:{n:'Canada',v:'🇨🇦'},u:{n:'Qatar',v:'🇶🇦'},st:'BC Place · Vancouver'},
+    {id:20011,dt:'2026-06-26T00:00:00Z',g:'B',t:{n:'Zwitserland',v:'🇨🇭'},u:{n:'Canada',v:'🇨🇦'},st:'SoFi Stadium · Los Angeles'},
+    {id:20012,dt:'2026-06-26T00:00:00Z',g:'B',t:{n:'Bosnië-Herz.',v:'🇧🇦'},u:{n:'Qatar',v:'🇶🇦'},st:'NRG Stadium · Houston'},
+    // ── GROEP C ──
+    {id:20013,dt:'2026-06-13T20:00:00Z',g:'C',t:{n:'Brazilië',v:'🇧🇷'},u:{n:'Marokko',v:'🇲🇦'},st:'MetLife Stadium · New York/NJ'},
+    {id:20014,dt:'2026-06-14T00:00:00Z',g:'C',t:{n:'Haïti',v:'🇭🇹'},u:{n:'Schotland',v:'🏴󠁧󠁢󠁳󠁣󠁴󠁿'},st:'Lumen Field · Seattle'},
+    {id:20015,dt:'2026-06-19T20:00:00Z',g:'C',t:{n:'Schotland',v:'🏴󠁧󠁢󠁳󠁣󠁴󠁿'},u:{n:'Marokko',v:'🇲🇦'},st:'Hard Rock Stadium · Miami'},
+    {id:20016,dt:'2026-06-20T00:00:00Z',g:'C',t:{n:'Brazilië',v:'🇧🇷'},u:{n:'Haïti',v:'🇭🇹'},st:'AT&T Stadium · Dallas'},
+    {id:20017,dt:'2026-06-26T20:00:00Z',g:'C',t:{n:'Marokko',v:'🇲🇦'},u:{n:'Haïti',v:'🇭🇹'},st:'Levi\'s Stadium · San Francisco'},
+    {id:20018,dt:'2026-06-26T20:00:00Z',g:'C',t:{n:'Schotland',v:'🏴󠁧󠁢󠁳󠁣󠁴󠁿'},u:{n:'Brazilië',v:'🇧🇷'},st:'Mercedes-Benz Stadium · Atlanta'},
+    // ── GROEP D ──
+    {id:20019,dt:'2026-06-12T23:00:00Z',g:'D',t:{n:'USA',v:'🇺🇸'},u:{n:'Paraguay',v:'🇵🇾'},st:'SoFi Stadium · Los Angeles'},
+    {id:20020,dt:'2026-06-13T02:00:00Z',g:'D',t:{n:'Australië',v:'🇦🇺'},u:{n:'Turkije',v:'🇹🇷'},st:'Lincoln Financial Field · Philadelphia'},
+    {id:20021,dt:'2026-06-20T20:00:00Z',g:'D',t:{n:'Turkije',v:'🇹🇷'},u:{n:'Paraguay',v:'🇵🇾'},st:'Arrowhead Stadium · Kansas City'},
+    {id:20022,dt:'2026-06-21T00:00:00Z',g:'D',t:{n:'USA',v:'🇺🇸'},u:{n:'Australië',v:'🇦🇺'},st:'NRG Stadium · Houston'},
+    {id:20023,dt:'2026-06-25T20:00:00Z',g:'D',t:{n:'Paraguay',v:'🇵🇾'},u:{n:'Australië',v:'🇦🇺'},st:'Gillette Stadium · Boston'},
+    {id:20024,dt:'2026-06-25T20:00:00Z',g:'D',t:{n:'Turkije',v:'🇹🇷'},u:{n:'USA',v:'🇺🇸'},st:'Hard Rock Stadium · Miami'},
+    // ── GROEP E ──
+    {id:20025,dt:'2026-06-14T20:00:00Z',g:'E',t:{n:'Duitsland',v:'🇩🇪'},u:{n:'Curaçao',v:'🇨🇼'},st:'Mercedes-Benz Stadium · Atlanta'},
+    {id:20026,dt:'2026-06-15T00:00:00Z',g:'E',t:{n:'Ivoorkust',v:'🇨🇮'},u:{n:'Ecuador',v:'🇪🇨'},st:'Lumen Field · Seattle'},
+    {id:20027,dt:'2026-06-20T23:00:00Z',g:'E',t:{n:'Ecuador',v:'🇪🇨'},u:{n:'Curaçao',v:'🇨🇼'},st:'Lincoln Financial Field · Philadelphia'},
+    {id:20028,dt:'2026-06-21T02:00:00Z',g:'E',t:{n:'Duitsland',v:'🇩🇪'},u:{n:'Ivoorkust',v:'🇨🇮'},st:'MetLife Stadium · New York/NJ'},
+    {id:20029,dt:'2026-06-27T00:00:00Z',g:'E',t:{n:'Curaçao',v:'🇨🇼'},u:{n:'Ivoorkust',v:'🇨🇮'},st:'Estadio Azteca · Mexico-Stad'},
+    {id:20030,dt:'2026-06-27T00:00:00Z',g:'E',t:{n:'Ecuador',v:'🇪🇨'},u:{n:'Duitsland',v:'🇩🇪'},st:'AT&T Stadium · Dallas'},
+    // ── GROEP F ──
+    {id:20031,dt:'2026-06-15T20:00:00Z',g:'F',t:{n:'Nederland',v:'🇳🇱'},u:{n:'Japan',v:'🇯🇵'},st:'Gillette Stadium · Boston'},
+    {id:20032,dt:'2026-06-16T00:00:00Z',g:'F',t:{n:'Zweden',v:'🇸🇪'},u:{n:'Tunesië',v:'🇹🇳'},st:'Arrowhead Stadium · Kansas City'},
+    {id:20033,dt:'2026-06-21T20:00:00Z',g:'F',t:{n:'Tunesië',v:'🇹🇳'},u:{n:'Japan',v:'🇯🇵'},st:'SoFi Stadium · Los Angeles'},
+    {id:20034,dt:'2026-06-22T00:00:00Z',g:'F',t:{n:'Nederland',v:'🇳🇱'},u:{n:'Zweden',v:'🇸🇪'},st:'Hard Rock Stadium · Miami'},
+    {id:20035,dt:'2026-06-26T23:00:00Z',g:'F',t:{n:'Japan',v:'🇯🇵'},u:{n:'Zweden',v:'🇸🇪'},st:'Mercedes-Benz Stadium · Atlanta'},
+    {id:20036,dt:'2026-06-26T23:00:00Z',g:'F',t:{n:'Tunesië',v:'🇹🇳'},u:{n:'Nederland',v:'🇳🇱'},st:'Arrowhead Stadium · Kansas City'},
+    // ── GROEP G ──
+    {id:20037,dt:'2026-06-15T23:00:00Z',g:'G',t:{n:'België',v:'🇧🇪'},u:{n:'Egypte',v:'🇪🇬'},st:'Lumen Field · Seattle'},
+    {id:20038,dt:'2026-06-16T02:00:00Z',g:'G',t:{n:'Iran',v:'🇮🇷'},u:{n:'Nieuw-Zeeland',v:'🇳🇿'},st:'Lincoln Financial Field · Philadelphia'},
+    {id:20039,dt:'2026-06-21T23:00:00Z',g:'G',t:{n:'Nieuw-Zeeland',v:'🇳🇿'},u:{n:'Egypte',v:'🇪🇬'},st:'NRG Stadium · Houston'},
+    {id:20040,dt:'2026-06-22T02:00:00Z',g:'G',t:{n:'België',v:'🇧🇪'},u:{n:'Iran',v:'🇮🇷'},st:'SoFi Stadium · Los Angeles'},
+    {id:20041,dt:'2026-06-27T20:00:00Z',g:'G',t:{n:'Egypte',v:'🇪🇬'},u:{n:'Iran',v:'🇮🇷'},st:'Levi\'s Stadium · San Francisco'},
+    {id:20042,dt:'2026-06-27T20:00:00Z',g:'G',t:{n:'Nieuw-Zeeland',v:'🇳🇿'},u:{n:'België',v:'🇧🇪'},st:'BC Place · Vancouver'},
+    // ── GROEP H ──
+    {id:20043,dt:'2026-06-16T20:00:00Z',g:'H',t:{n:'Spanje',v:'🇪🇸'},u:{n:'Kaapverdië',v:'🇨🇻'},st:'Hard Rock Stadium · Miami'},
+    {id:20044,dt:'2026-06-17T00:00:00Z',g:'H',t:{n:'Saoedi-Arabië',v:'🇸🇦'},u:{n:'Uruguay',v:'🇺🇾'},st:'Gillette Stadium · Boston'},
+    {id:20045,dt:'2026-06-22T20:00:00Z',g:'H',t:{n:'Uruguay',v:'🇺🇾'},u:{n:'Kaapverdië',v:'🇨🇻'},st:'Lincoln Financial Field · Philadelphia'},
+    {id:20046,dt:'2026-06-23T00:00:00Z',g:'H',t:{n:'Spanje',v:'🇪🇸'},u:{n:'Saoedi-Arabië',v:'🇸🇦'},st:'MetLife Stadium · New York/NJ'},
+    {id:20047,dt:'2026-06-27T23:00:00Z',g:'H',t:{n:'Kaapverdië',v:'🇨🇻'},u:{n:'Saoedi-Arabië',v:'🇸🇦'},st:'Mercedes-Benz Stadium · Atlanta'},
+    {id:20048,dt:'2026-06-27T23:00:00Z',g:'H',t:{n:'Uruguay',v:'🇺🇾'},u:{n:'Spanje',v:'🇪🇸'},st:'Arrowhead Stadium · Kansas City'},
+    // ── GROEP I ──
+    {id:20049,dt:'2026-06-16T23:00:00Z',g:'I',t:{n:'Frankrijk',v:'🇫🇷'},u:{n:'Senegal',v:'🇸🇳'},st:'AT&T Stadium · Dallas'},
+    {id:20050,dt:'2026-06-17T02:00:00Z',g:'I',t:{n:'Irak',v:'🇮🇶'},u:{n:'Noorwegen',v:'🇳🇴'},st:'NRG Stadium · Houston'},
+    {id:20051,dt:'2026-06-23T20:00:00Z',g:'I',t:{n:'Noorwegen',v:'🇳🇴'},u:{n:'Senegal',v:'🇸🇳'},st:'Lumen Field · Seattle'},
+    {id:20052,dt:'2026-06-24T00:00:00Z',g:'I',t:{n:'Frankrijk',v:'🇫🇷'},u:{n:'Irak',v:'🇮🇶'},st:'BC Place · Vancouver'},
+    {id:20053,dt:'2026-06-28T00:00:00Z',g:'I',t:{n:'Senegal',v:'🇸🇳'},u:{n:'Irak',v:'🇮🇶'},st:'Levi\'s Stadium · San Francisco'},
+    {id:20054,dt:'2026-06-28T00:00:00Z',g:'I',t:{n:'Noorwegen',v:'🇳🇴'},u:{n:'Frankrijk',v:'🇫🇷'},st:'SoFi Stadium · Los Angeles'},
+    // ── GROEP J ──
+    {id:20055,dt:'2026-06-17T20:00:00Z',g:'J',t:{n:'Argentinië',v:'🇦🇷'},u:{n:'Algerije',v:'🇩🇿'},st:'MetLife Stadium · New York/NJ'},
+    {id:20056,dt:'2026-06-18T00:00:00Z',g:'J',t:{n:'Oostenrijk',v:'🇦🇹'},u:{n:'Jordanië',v:'🇯🇴'},st:'Mercedes-Benz Stadium · Atlanta'},
+    {id:20057,dt:'2026-06-23T23:00:00Z',g:'J',t:{n:'Jordanië',v:'🇯🇴'},u:{n:'Algerije',v:'🇩🇿'},st:'Hard Rock Stadium · Miami'},
+    {id:20058,dt:'2026-06-24T02:00:00Z',g:'J',t:{n:'Argentinië',v:'🇦🇷'},u:{n:'Oostenrijk',v:'🇦🇹'},st:'AT&T Stadium · Dallas'},
+    {id:20059,dt:'2026-06-28T20:00:00Z',g:'J',t:{n:'Algerije',v:'🇩🇿'},u:{n:'Oostenrijk',v:'🇦🇹'},st:'Gillette Stadium · Boston'},
+    {id:20060,dt:'2026-06-28T20:00:00Z',g:'J',t:{n:'Jordanië',v:'🇯🇴'},u:{n:'Argentinië',v:'🇦🇷'},st:'Lincoln Financial Field · Philadelphia'},
+    // ── GROEP K ──
+    {id:20061,dt:'2026-06-18T02:00:00Z',g:'K',t:{n:'Portugal',v:'🇵🇹'},u:{n:'DR Congo',v:'🇨🇩'},st:'Levi\'s Stadium · San Francisco'},
+    {id:20062,dt:'2026-06-18T22:00:00Z',g:'K',t:{n:'Oezbekistan',v:'🇺🇿'},u:{n:'Colombia',v:'🇨🇴'},st:'BC Place · Vancouver'},
+    {id:20063,dt:'2026-06-24T20:00:00Z',g:'K',t:{n:'Colombia',v:'🇨🇴'},u:{n:'DR Congo',v:'🇨🇩'},st:'NRG Stadium · Houston'},
+    {id:20064,dt:'2026-06-25T00:00:00Z',g:'K',t:{n:'Portugal',v:'🇵🇹'},u:{n:'Oezbekistan',v:'🇺🇿'},st:'Lumen Field · Seattle'},
+    {id:20065,dt:'2026-06-29T00:00:00Z',g:'K',t:{n:'DR Congo',v:'🇨🇩'},u:{n:'Oezbekistan',v:'🇺🇿'},st:'Estadio Azteca · Mexico-Stad'},
+    {id:20066,dt:'2026-06-29T00:00:00Z',g:'K',t:{n:'Colombia',v:'🇨🇴'},u:{n:'Portugal',v:'🇵🇹'},st:'AT&T Stadium · Dallas'},
+    // ── GROEP L ──
+    {id:20067,dt:'2026-06-19T02:00:00Z',g:'L',t:{n:'Engeland',v:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},u:{n:'Kroatië',v:'🇭🇷'},st:'Hard Rock Stadium · Miami'},
+    {id:20068,dt:'2026-06-19T22:00:00Z',g:'L',t:{n:'Ghana',v:'🇬🇭'},u:{n:'Panama',v:'🇵🇦'},st:'SoFi Stadium · Los Angeles'},
+    {id:20069,dt:'2026-06-24T23:00:00Z',g:'L',t:{n:'Panama',v:'🇵🇦'},u:{n:'Kroatië',v:'🇭🇷'},st:'Mercedes-Benz Stadium · Atlanta'},
+    {id:20070,dt:'2026-06-25T02:00:00Z',g:'L',t:{n:'Engeland',v:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},u:{n:'Ghana',v:'🇬🇭'},st:'Gillette Stadium · Boston'},
+    {id:20071,dt:'2026-06-29T20:00:00Z',g:'L',t:{n:'Kroatië',v:'🇭🇷'},u:{n:'Ghana',v:'🇬🇭'},st:'Lincoln Financial Field · Philadelphia'},
+    {id:20072,dt:'2026-06-29T20:00:00Z',g:'L',t:{n:'Panama',v:'🇵🇦'},u:{n:'Engeland',v:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},st:'NRG Stadium · Houston'},
+  ];
+  return w.map(x => ({
+    id: x.id,
+    datum: new Date(x.dt),
+    fase: 'GROUP_STAGE',
+    isKO: false,
+    thuis: x.t,
+    uit: x.u,
+    groep: x.g,
+    stadion: x.st,
+    status: new Date(x.dt) < new Date() ? 'FINISHED' : 'SCHEDULED',
+    minuut: null,
+    score: { thuis: null, uit: null },
+    scoreNa90: { thuis: null, uit: null },
+    penalties: null,
+  }));
+}
+
+/* ══════════════════════════════════════════
    DATA LADEN
 ══════════════════════════════════════════ */
 async function laadAlles() {
@@ -363,9 +471,11 @@ async function laadAlles() {
     bRows.forEach(r => {
       bonusData[r.speler] = {kampioen:r.kampioen,finalist:r.finalist,scorers:[r.scorer1,r.scorer2,r.scorer3].filter(Boolean)};
     });
-    wedstrijden = scores.length ? scores : [];
+    // Gebruik live scores als die beschikbaar zijn, anders vaste WK 2026 lijst
+    wedstrijden = scores.length ? scores : wk2026Wedstrijden();
   } catch {
-    wedstrijden = [];
+    // Supabase niet bereikbaar — toon wel wedstrijden
+    wedstrijden = wk2026Wedstrijden();
   }
   berekenStand();
   renderActief();
