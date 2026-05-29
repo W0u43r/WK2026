@@ -6,1011 +6,358 @@
 <title>WK 2026 Poule · Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ─────────────────────────────────────────────
-   DESIGN: Slate & Ember  (donkergrijs + oranje)
-   ───────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
 :root {
-  --bg:      #141414;
-  --bg2:     #1A1A1A;
-  --bg3:     #222222;
-  --border:  #2A2A2A;
-  --border2: #333333;
-  --text:    #E0E0E0;
-  --text2:   #888888;
-  --text3:   #555555;
-  --orange:  #FF6B35;
-  --orange2: #F7931E;
-  --orange-dim: rgba(255,107,53,0.12);
-  --orange-border: rgba(255,107,53,0.3);
-  --green:   #68D391;
-  --red:     #E06060;
-  --yellow:  #E8B84B;
-  --radius:  8px;
-  --radius-lg: 12px;
-  --font: 'DM Sans', sans-serif;
-  --mono: 'DM Mono', monospace;
+  --bg:     #141414; --bg2: #1A1A1A; --bg3: #222;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+  --text: #E0E0E0; --text2: #999; --text3: #555;
+  --orange: #FF6B35; --orange2: #F7931E;
+  --odim: rgba(255,107,53,0.10); --oborder: rgba(255,107,53,0.28);
+  --green: #68D391; --red: #E07070; --yellow: #E8B84B;
+  --r: 8px; --rl: 12px;
+  --font: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
 }
-
-body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ── SIDEBAR ── */
+body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
 .layout { display: flex; min-height: 100vh; }
 
-.sidebar {
-  width: 220px;
-  background: var(--bg2);
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0; left: 0; bottom: 0;
-  z-index: 50;
-  transition: transform 0.25s;
-}
-
-.sidebar-logo {
-  padding: 20px 18px 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-.sidebar-logo-icon {
-  width: 36px; height: 36px;
-  border-radius: 9px;
-  background: linear-gradient(135deg, var(--orange), var(--orange2));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; margin-bottom: 10px;
-}
-
-.sidebar-logo-title {
-  font-size: 15px; font-weight: 600; color: var(--text);
-}
-
-.sidebar-logo-sub {
-  font-size: 11px; color: var(--text3);
-  display: flex; align-items: center; gap: 5px; margin-top: 2px;
-}
-
-.admin-badge {
-  font-size: 9px; font-weight: 600; letter-spacing: 0.1em;
-  background: var(--orange-dim); color: var(--orange);
-  border: 1px solid var(--orange-border);
-  padding: 1px 6px; border-radius: 4px;
-  text-transform: uppercase;
-}
-
-.nav { padding: 12px 10px; flex: 1; overflow-y: auto; }
-
-.nav-section {
-  font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--text3);
-  padding: 8px 8px 4px;
-}
-
-.nav-item {
-  display: flex; align-items: center; gap: 9px;
-  padding: 8px 10px; border-radius: var(--radius);
-  font-size: 13px; font-weight: 500; color: var(--text2);
-  cursor: pointer; text-decoration: none;
-  transition: background 0.15s, color 0.15s;
-  margin-bottom: 2px;
-}
-
+/* SIDEBAR */
+.sidebar { width: 220px; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50; }
+.sb-logo { padding: 18px; border-bottom: 1px solid var(--border); }
+.sb-icon { width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(135deg,var(--orange),var(--orange2)); display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 10px; }
+.sb-title { font-size: 14px; font-weight: 600; }
+.sb-sub { font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 5px; margin-top: 3px; }
+.admin-badge { font-size: 9px; font-weight: 600; letter-spacing: .1em; background: var(--odim); color: var(--orange); border: 1px solid var(--oborder); padding: 1px 6px; border-radius: 4px; text-transform: uppercase; }
+.nav { padding: 10px; flex: 1; overflow-y: auto; }
+.nav-sec { font-size: 9px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--text3); padding: 8px 8px 4px; }
+.nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: var(--r); font-size: 13px; font-weight: 500; color: var(--text2); cursor: pointer; text-decoration: none; transition: all .15s; margin-bottom: 2px; }
 .nav-item:hover { background: var(--bg3); color: var(--text); }
-
-.nav-item.active {
-  background: var(--orange-dim);
-  color: var(--orange);
-  border: 1px solid var(--orange-border);
-}
-
-.nav-icon { font-size: 16px; width: 18px; text-align: center; }
-
-.nav-footer {
-  padding: 14px 18px;
-  border-top: 1px solid var(--border);
-}
-
-.back-link {
-  display: flex; align-items: center; gap: 7px;
-  font-size: 12px; color: var(--text3);
-  text-decoration: none;
-  transition: color 0.15s;
-}
-
+.nav-item.active { background: var(--odim); color: var(--orange); border: 1px solid var(--oborder); }
+.nav-icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+.sb-footer { padding: 14px 18px; border-top: 1px solid var(--border); }
+.back-link { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text3); text-decoration: none; transition: color .15s; }
 .back-link:hover { color: var(--text); }
 
-/* ── MAIN CONTENT ── */
-.main {
-  margin-left: 220px;
-  flex: 1;
-  padding: 28px 32px;
-  max-width: 960px;
-}
-
-/* ── PAGE SECTIONS ── */
+/* MAIN */
+.main { margin-left: 220px; flex: 1; padding: 28px 32px; max-width: 940px; }
 .page { display: none; }
 .page.active { display: block; }
 
-/* ── PAGE HEADER ── */
-.page-header {
-  display: flex; justify-content: space-between;
-  align-items: flex-start; margin-bottom: 24px;
-}
+/* PAGE HEADER */
+.page-hd { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; }
+.page-title { font-size: 20px; font-weight: 600; }
+.page-sub { font-size: 12px; color: var(--text3); margin-top: 3px; }
 
-.page-title { font-size: 22px; font-weight: 600; color: var(--text); }
-.page-sub { font-size: 13px; color: var(--text3); margin-top: 3px; }
-
-/* ── CARDS ── */
-.card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-
-.card-header {
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--border);
-  display: flex; justify-content: space-between; align-items: center;
-}
-
-.card-title {
-  font-size: 13px; font-weight: 600; color: var(--text);
-}
-
-.card-sub {
-  font-size: 11px; color: var(--text3); margin-top: 2px;
-}
-
+/* CARDS */
+.card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rl); overflow: hidden; margin-bottom: 16px; }
+.card-hd { padding: 13px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.card-title { font-size: 13px; font-weight: 600; }
+.card-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
 .card-body { padding: 18px; }
 
-/* ── GRID ── */
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
+/* GRID */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
 
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
+/* STAT CARDS */
+.stat-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; }
+.stat-val { font-size: 28px; font-weight: 700; color: var(--orange); font-family: var(--mono); line-height: 1; }
+.stat-lbl { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-top: 6px; }
 
-/* ── STAT CARDS ── */
-.stat-card {
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-}
-
-.stat-value {
-  font-size: 28px; font-weight: 700; color: var(--orange);
-  font-family: var(--mono); line-height: 1;
-}
-
-.stat-label {
-  font-size: 11px; color: var(--text3);
-  text-transform: uppercase; letter-spacing: 0.08em;
-  margin-top: 6px;
-}
-
-/* ── FORM ELEMENTS ── */
+/* FORM */
 .form-group { margin-bottom: 16px; }
-
-.form-label {
-  display: block; font-size: 11px; font-weight: 600;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--text3); margin-bottom: 6px;
-}
-
-.form-input {
-  width: 100%; font-family: var(--font); font-size: 14px;
-  background: var(--bg3); color: var(--text);
-  border: 1px solid var(--border2); border-radius: var(--radius);
-  padding: 9px 12px; outline: none;
-  transition: border-color 0.15s;
-}
-
-.form-input:focus { border-color: var(--orange); }
-
-.form-input-sm {
-  width: 80px; font-family: var(--mono); font-size: 14px;
-  background: var(--bg3); color: var(--text);
-  border: 1px solid var(--border2); border-radius: var(--radius);
-  padding: 7px 10px; outline: none; text-align: center;
-  transition: border-color 0.15s;
-}
-
-.form-input-sm:focus { border-color: var(--orange); }
-
-.form-input-sm::-webkit-outer-spin-button,
-.form-input-sm::-webkit-inner-spin-button { -webkit-appearance: none; }
-
+.form-lbl { display: block; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+.form-inp { width: 100%; font-family: var(--font); font-size: 14px; background: var(--bg3); color: var(--text); border: 1px solid var(--border2); border-radius: var(--r); padding: 9px 12px; outline: none; transition: border-color .15s; }
+.form-inp:focus { border-color: var(--orange); }
+.form-inp-sm { width: 72px; font-family: var(--mono); font-size: 15px; background: var(--bg3); color: var(--text); border: 1px solid var(--border2); border-radius: var(--r); padding: 7px 10px; outline: none; text-align: center; transition: border-color .15s; -moz-appearance: textfield; }
+.form-inp-sm::-webkit-outer-spin-button, .form-inp-sm::-webkit-inner-spin-button { -webkit-appearance: none; }
+.form-inp-sm:focus { border-color: var(--orange); }
 .form-hint { font-size: 11px; color: var(--text3); margin-top: 5px; line-height: 1.5; }
+.input-group { display: flex; gap: 8px; }
+.input-group .form-inp { flex: 1; }
 
-/* ── BUTTONS ── */
-.btn {
-  font-family: var(--font); font-size: 13px; font-weight: 500;
-  padding: 8px 16px; border-radius: var(--radius);
-  border: 1px solid var(--border2); background: none;
-  color: var(--text2); cursor: pointer;
-  transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px;
-}
-
+/* BUTTONS */
+.btn { font-family: var(--font); font-size: 13px; font-weight: 500; padding: 8px 16px; border-radius: var(--r); border: 1px solid var(--border2); background: none; color: var(--text2); cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: 6px; }
 .btn:hover { background: var(--bg3); color: var(--text); }
-
-.btn-primary {
-  background: var(--orange); color: #141414;
-  border-color: var(--orange); font-weight: 600;
-}
-
-.btn-primary:hover { background: #FF8555; border-color: #FF8555; color: #141414; }
-
-.btn-danger {
-  color: var(--red); border-color: rgba(224,96,96,0.3);
-}
-
-.btn-danger:hover { background: rgba(224,96,96,0.08); color: var(--red); }
-
+.btn-primary { background: var(--orange); color: #141414; border-color: var(--orange); font-weight: 600; }
+.btn-primary:hover { background: #FF8855; border-color: #FF8855; color: #141414; }
+.btn-danger { color: var(--red); border-color: rgba(224,96,96,0.3); }
+.btn-danger:hover { background: rgba(224,96,96,0.08); }
 .btn-sm { font-size: 12px; padding: 5px 11px; }
+.btn-icon { width: 30px; height: 30px; padding: 0; justify-content: center; border-radius: var(--r); font-size: 14px; }
 
-.btn-icon {
-  width: 30px; height: 30px; padding: 0;
-  display: inline-flex; align-items: center; justify-content: center;
-  border-radius: var(--radius); font-size: 14px;
-}
+/* TABLE */
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); padding: 8px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+.tbl td { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 14px; }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:hover td { background: rgba(255,255,255,0.02); }
+.pl-av { width: 32px; height: 32px; border-radius: 50%; background: var(--bg3); border: 2px solid var(--border2); color: var(--text2); font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pl-cell { display: flex; align-items: center; gap: 10px; }
+.pl-name { font-weight: 500; }
+.pl-detail { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.s-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.s-dot.on { background: var(--green); }
+.s-dot.off { background: var(--text3); }
 
-/* ── DEELNEMERS TABEL ── */
-.player-table { width: 100%; border-collapse: collapse; }
-
-.player-table th {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--text3);
-  padding: 8px 14px; text-align: left;
-  border-bottom: 1px solid var(--border);
-}
-
-.player-table td {
-  padding: 12px 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  font-size: 14px;
-}
-
-.player-table tr:last-child td { border-bottom: none; }
-
-.player-table tr:hover td { background: rgba(255,255,255,0.02); }
-
-.player-avatar-sm {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: var(--bg3); border: 2px solid var(--border2);
-  color: var(--text2); font-size: 11px; font-weight: 600;
-  display: inline-flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-
-.player-cell { display: flex; align-items: center; gap: 10px; }
-.player-name-cell { font-weight: 500; color: var(--text); }
-.player-detail { font-size: 11px; color: var(--text3); margin-top: 1px; }
-
-.status-dot {
-  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
-}
-.status-dot.active { background: var(--green); }
-.status-dot.inactive { background: var(--text3); }
-
-.badge {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.06em;
-  padding: 2px 8px; border-radius: 4px; text-transform: uppercase;
-}
-.badge-orange { background: var(--orange-dim); color: var(--orange); border: 1px solid var(--orange-border); }
+/* BADGE */
+.badge { font-size: 10px; font-weight: 600; letter-spacing: .06em; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+.badge-orange { background: var(--odim); color: var(--orange); border: 1px solid var(--oborder); }
 .badge-gray { background: var(--bg3); color: var(--text3); border: 1px solid var(--border); }
 .badge-green { background: rgba(104,211,145,0.1); color: var(--green); border: 1px solid rgba(104,211,145,0.25); }
 
-/* ── ADD PLAYER FORM ── */
-.add-player-row {
-  display: flex; gap: 10px; align-items: flex-end;
-  padding: 16px 18px;
-  border-top: 1px solid var(--border);
-  background: var(--bg3);
-}
+/* ADD ROW */
+.add-row { display: flex; gap: 10px; align-items: flex-end; padding: 14px 18px; border-top: 1px solid var(--border); background: var(--bg3); }
 
-/* ── PUNTEN SYSTEEM ── */
-.pts-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-
+/* PTS ROW */
+.pts-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .pts-row:last-child { border: none; }
-
 .pts-info { flex: 1; }
-.pts-name { font-size: 14px; color: var(--text); }
+.pts-name { font-size: 14px; }
 .pts-desc { font-size: 11px; color: var(--text3); margin-top: 2px; }
 
-.pts-value-display {
-  font-family: var(--mono); font-size: 22px; font-weight: 500;
-  color: var(--orange); text-align: right; min-width: 40px;
-}
-
-/* ── SUPABASE CONFIG ── */
-.config-field {
-  display: flex; flex-direction: column; gap: 6px;
-  margin-bottom: 14px;
-}
-
-.config-key {
-  font-family: var(--mono); font-size: 12px; color: var(--text3);
-}
-
-.input-group {
-  display: flex; gap: 8px;
-}
-
-.input-group .form-input { flex: 1; font-family: var(--mono); font-size: 13px; }
-
-/* ── TOGGLE ── */
-.toggle-wrap {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-
+/* TOGGLE */
+.toggle-wrap { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .toggle-wrap:last-child { border: none; }
-
-.toggle {
-  position: relative; width: 36px; height: 20px; flex-shrink: 0;
-}
-
+.toggle { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
 .toggle input { opacity: 0; width: 0; height: 0; }
-
-.toggle-slider {
-  position: absolute; inset: 0;
-  background: var(--bg3); border: 1px solid var(--border2);
-  border-radius: 100px; cursor: pointer;
-  transition: all 0.2s;
-}
-
-.toggle-slider::before {
-  content: '';
-  position: absolute; width: 14px; height: 14px;
-  left: 2px; top: 2px; border-radius: 50%;
-  background: var(--text3);
-  transition: all 0.2s;
-}
-
-.toggle input:checked + .toggle-slider {
-  background: var(--orange-dim);
-  border-color: var(--orange-border);
-}
-
-.toggle input:checked + .toggle-slider::before {
-  background: var(--orange);
-  transform: translateX(16px);
-}
-
+.toggle-sl { position: absolute; inset: 0; background: var(--bg3); border: 1px solid var(--border2); border-radius: 100px; cursor: pointer; transition: all .2s; }
+.toggle-sl::before { content:''; position: absolute; width: 14px; height: 14px; left: 2px; top: 2px; border-radius: 50%; background: var(--text3); transition: all .2s; }
+.toggle input:checked + .toggle-sl { background: var(--odim); border-color: var(--oborder); }
+.toggle input:checked + .toggle-sl::before { background: var(--orange); transform: translateX(16px); }
 .toggle-info { flex: 1; }
-.toggle-label { font-size: 14px; color: var(--text); }
+.toggle-lbl { font-size: 14px; }
 .toggle-hint { font-size: 11px; color: var(--text3); margin-top: 2px; }
 
-/* ── ACTIVITY LOG ── */
-.log-item {
-  display: flex; gap: 12px; align-items: flex-start;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
+/* CODE */
+.code-block { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); padding: 14px; font-family: var(--mono); font-size: 12px; color: var(--text2); line-height: 1.8; overflow-x: auto; white-space: pre; }
 
-.log-item:last-child { border: none; }
+/* ALERT */
+.alert { padding: 11px 14px; border-radius: var(--r); font-size: 13px; line-height: 1.6; margin-bottom: 16px; display: flex; gap: 9px; }
+.alert-warn { background: rgba(232,184,75,.08); border: 1px solid rgba(232,184,75,.25); color: var(--yellow); }
+.alert-info { background: var(--odim); border: 1px solid var(--oborder); color: var(--orange); }
+.alert-success { background: rgba(104,211,145,.08); border: 1px solid rgba(104,211,145,.25); color: var(--green); }
+.alert code { font-family: var(--mono); font-size: 11px; background: rgba(0,0,0,.3); padding: 1px 5px; border-radius: 3px; }
 
-.log-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  flex-shrink: 0; margin-top: 5px;
-}
+/* DIVIDER */
+.divider { height: 1px; background: var(--border); margin: 18px 0; }
 
-.log-text { font-size: 13px; color: var(--text); flex: 1; }
-.log-time { font-size: 11px; color: var(--text3); margin-top: 2px; }
-.log-meta { font-size: 11px; color: var(--text3); white-space: nowrap; margin-top: 4px; }
-
-/* ── ALERT ── */
-.alert {
-  padding: 12px 16px; border-radius: var(--radius);
-  font-size: 13px; line-height: 1.6; margin-bottom: 16px;
-  display: flex; gap: 10px; align-items: flex-start;
-}
-
-.alert-warning {
-  background: rgba(232,184,75,0.08);
-  border: 1px solid rgba(232,184,75,0.25);
-  color: var(--yellow);
-}
-
-.alert-info {
-  background: var(--orange-dim);
-  border: 1px solid var(--orange-border);
-  color: var(--orange);
-}
-
-.alert-success {
-  background: rgba(104,211,145,0.08);
-  border: 1px solid rgba(104,211,145,0.25);
-  color: var(--green);
-}
-
-/* ── TOAST ── */
-#toast {
-  position: fixed; bottom: 24px; left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: var(--bg2); border: 1px solid var(--border2);
-  color: var(--text); font-size: 13px; padding: 10px 20px;
-  border-radius: 100px; z-index: 999;
-  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-  white-space: nowrap;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-  pointer-events: none;
-}
-
+/* TOAST */
+#toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--bg2); border: 1px solid var(--border2); color: var(--text); font-size: 13px; padding: 10px 22px; border-radius: 100px; z-index: 999; transition: transform .3s cubic-bezier(.4,0,.2,1); white-space: nowrap; box-shadow: 0 8px 32px rgba(0,0,0,.5); pointer-events: none; }
 #toast.show { transform: translateX(-50%) translateY(0); }
-#toast.success { border-color: rgba(104,211,145,0.4); color: var(--green); }
-#toast.error { border-color: rgba(224,96,96,0.4); color: var(--red); }
+#toast.success { border-color: rgba(104,211,145,.4); color: var(--green); }
+#toast.error { border-color: rgba(224,96,96,.4); color: var(--red); }
 
-/* ── DIVIDER ── */
-.divider { height: 1px; background: var(--border); margin: 20px 0; }
-
-/* ── CODE BLOCK ── */
-.code-block {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 12px 14px;
-  font-family: var(--mono); font-size: 12px; color: var(--text2);
-  line-height: 1.8; overflow-x: auto;
-  white-space: pre;
-}
-
-/* ── RESPONSIVE ── */
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); }
-  .sidebar.open { transform: translateX(0); }
+  .sidebar { display: none; }
   .main { margin-left: 0; padding: 16px; }
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .g2, .g3 { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
-
 <div class="layout">
 
-  <!-- ═══════════════════════════════
-       SIDEBAR
-  ════════════════════════════════ -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="sidebar-logo-icon">⚽</div>
-      <div class="sidebar-logo-title">WK 2026 Poule</div>
-      <div class="sidebar-logo-sub">
-        <span class="admin-badge">Admin</span>
-        Beheer paneel
-      </div>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-icon">⚽</div>
+    <div class="sb-title">WK 2026 Poule</div>
+    <div class="sb-sub"><span class="admin-badge">Admin</span> Beheer paneel</div>
+  </div>
+  <nav class="nav">
+    <div class="nav-sec">Overzicht</div>
+    <a class="nav-item active" onclick="show('dashboard')" href="#"><span class="nav-icon">📊</span>Dashboard</a>
+    <a class="nav-item" onclick="show('deelnemers')" href="#"><span class="nav-icon">👥</span>Deelnemers</a>
+    <div class="nav-sec">Toernooi</div>
+    <a class="nav-item" onclick="show('punten')" href="#"><span class="nav-icon">🏆</span>Puntensysteem</a>
+    <a class="nav-item" onclick="show('bonus')" href="#"><span class="nav-icon">⭐</span>Bonusvragen</a>
+    <div class="nav-sec">Technisch</div>
+    <a class="nav-item" onclick="show('supabase')" href="#"><span class="nav-icon">🔌</span>Supabase setup</a>
+    <a class="nav-item" onclick="show('api')" href="#"><span class="nav-icon">📡</span>API & scores</a>
+    <a class="nav-item" onclick="show('instellingen')" href="#"><span class="nav-icon">⚙️</span>Instellingen</a>
+  </nav>
+  <div class="sb-footer">
+    <a class="back-link" href="index.html">← Terug naar poule</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- DASHBOARD -->
+  <div id="page-dashboard" class="page active">
+    <div class="page-hd">
+      <div><div class="page-title">Dashboard</div><div class="page-sub">Overzicht van de poule</div></div>
+      <button class="btn btn-sm" onclick="renderDashboard()">↻ Vernieuwen</button>
     </div>
-
-    <nav class="nav">
-      <div class="nav-section">Overzicht</div>
-      <a class="nav-item active" onclick="showPage('dashboard')" href="#">
-        <span class="nav-icon">📊</span> Dashboard
-      </a>
-      <a class="nav-item" onclick="showPage('deelnemers')" href="#">
-        <span class="nav-icon">👥</span> Deelnemers
-      </a>
-
-      <div class="nav-section">Toernooi</div>
-      <a class="nav-item" onclick="showPage('punten')" href="#">
-        <span class="nav-icon">🏆</span> Puntensysteem
-      </a>
-      <a class="nav-item" onclick="showPage('wedstrijden')" href="#">
-        <span class="nav-icon">⚽</span> Wedstrijden
-      </a>
-      <a class="nav-item" onclick="showPage('bonus')" href="#">
-        <span class="nav-icon">⭐</span> Bonusvragen
-      </a>
-
-      <div class="nav-section">Technisch</div>
-      <a class="nav-item" onclick="showPage('supabase')" href="#">
-        <span class="nav-icon">🔌</span> Supabase setup
-      </a>
-      <a class="nav-item" onclick="showPage('api')" href="#">
-        <span class="nav-icon">📡</span> API & scores
-      </a>
-      <a class="nav-item" onclick="showPage('instellingen')" href="#">
-        <span class="nav-icon">⚙️</span> Instellingen
-      </a>
-    </nav>
-
-    <div class="nav-footer">
-      <a class="back-link" href="index.html">
-        ← Terug naar poule
-      </a>
+    <div class="g3" style="margin-bottom:16px">
+      <div class="stat-card"><div class="stat-val" id="st-deelnemers">—</div><div class="stat-lbl">Deelnemers actief</div></div>
+      <div class="stat-card"><div class="stat-val" id="st-bonus">—</div><div class="stat-lbl">Bonus ingevuld</div></div>
+      <div class="stat-card"><div class="stat-val" id="st-verbinding">—</div><div class="stat-lbl">Supabase status</div></div>
     </div>
-  </aside>
-
-  <!-- ═══════════════════════════════
-       MAIN
-  ════════════════════════════════ -->
-  <main class="main">
-
-    <!-- ─── DASHBOARD ─── -->
-    <div id="page-dashboard" class="page active">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Dashboard</div>
-          <div class="page-sub">Overzicht van de poule</div>
-        </div>
-        <button class="btn btn-sm" onclick="refreshData()">↻ Vernieuwen</button>
-      </div>
-
-      <div class="grid-3" style="margin-bottom:16px">
-        <div class="stat-card">
-          <div class="stat-value" id="stat-deelnemers">6</div>
-          <div class="stat-label">Deelnemers</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="stat-gespeeld">0</div>
-          <div class="stat-label">Wedstrijden gespeeld</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="stat-voorspeld">0</div>
-          <div class="stat-label">Voorspellingen ingevoerd</div>
-        </div>
-      </div>
-
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Huidige stand</div>
-              <div class="card-sub">Live bijgewerkt</div>
-            </div>
-          </div>
-          <div class="card-body" style="padding:0">
-            <table class="player-table">
-              <thead>
-                <tr>
-                  <th>#</th><th>Naam</th><th>Pts</th><th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="stand-preview">
-                <!-- wordt gevuld via JS -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Recente activiteit</div>
-          </div>
-          <div class="card-body" id="activity-log">
-            <div class="log-item">
-              <div class="log-dot" style="background:var(--orange)"></div>
-              <div>
-                <div class="log-text">Wouter heeft voorspelling ingevoerd: NED–JPN 2–0</div>
-                <div class="log-time">vandaag 14:22</div>
-              </div>
-            </div>
-            <div class="log-item">
-              <div class="log-dot" style="background:var(--green)"></div>
-              <div>
-                <div class="log-text">Anne-Charlotte heeft bonusvragen ingevuld</div>
-                <div class="log-time">vandaag 11:05</div>
-              </div>
-            </div>
-            <div class="log-item">
-              <div class="log-dot" style="background:var(--text3)"></div>
-              <div>
-                <div class="log-text">Poule aangemaakt</div>
-                <div class="log-time">5 juni 2026</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="alert alert-info" style="margin-top:4px">
-        <span>⚽</span>
-        <div>Het WK begint op <strong>11 juni 2026</strong>. Zorg dat alle deelnemers hun bonusvragen hebben ingevuld vóór de aftrap van de openingswedstrijd.</div>
-      </div>
-    </div>
-
-    <!-- ─── DEELNEMERS ─── -->
-    <div id="page-deelnemers" class="page">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Deelnemers</div>
-          <div class="page-sub">Beheer wie meedoet aan de poule</div>
-        </div>
-        <button class="btn btn-primary btn-sm" onclick="focusAddPlayer()">+ Deelnemer toevoegen</button>
-      </div>
-
+    <div class="g2">
       <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Deelnemers</div>
-            <div class="card-sub" id="player-count-label">6 deelnemers</div>
-          </div>
+        <div class="card-hd"><div class="card-title">Deelnemers</div></div>
+        <div class="card-body" style="padding:0"><table class="tbl"><thead><tr><th>#</th><th>Naam</th><th>Kampioen</th><th>Status</th></tr></thead><tbody id="dash-stand"></tbody></table></div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Verbindingsinfo</div></div>
+        <div class="card-body" id="dash-verbinding">
+          <div style="font-size:13px;color:var(--text3)">Laden…</div>
         </div>
+      </div>
+    </div>
+    <div class="alert alert-info">⚽ Het WK begint op <strong>11 juni 2026</strong>. Zorg dat iedereen zijn bonusvragen heeft ingevuld vóór de aftrap.</div>
+  </div>
 
-        <table class="player-table">
-          <thead>
-            <tr>
-              <th style="width:40px">#</th>
-              <th>Naam</th>
-              <th>Kampioen</th>
-              <th>Voorspellingen</th>
-              <th>Status</th>
-              <th style="width:100px">Acties</th>
-            </tr>
-          </thead>
-          <tbody id="player-table-body">
-            <!-- JS renders this -->
-          </tbody>
+  <!-- DEELNEMERS -->
+  <div id="page-deelnemers" class="page">
+    <div class="page-hd">
+      <div><div class="page-title">Deelnemers</div><div class="page-sub">Wie doet er mee aan de poule</div></div>
+      <button class="btn btn-primary btn-sm" onclick="focusAdd()">+ Toevoegen</button>
+    </div>
+    <div class="card">
+      <div class="card-hd">
+        <div><div class="card-title">Deelnemers</div><div class="card-sub" id="pl-count">—</div></div>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>#</th><th>Naam</th><th>Kampioen</th><th>Status</th><th style="width:90px">Acties</th></tr></thead>
+        <tbody id="pl-tbody"></tbody>
+      </table>
+      <div class="add-row">
+        <div style="flex:1">
+          <label class="form-lbl">Naam nieuw deelnemer</label>
+          <input class="form-inp" id="new-name" type="text" placeholder="Bijv. Oma Riet" onkeydown="if(event.key==='Enter')addPlayer()" style="margin:0" />
+        </div>
+        <button class="btn btn-primary" onclick="addPlayer()">Toevoegen</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Uitnodigingslink</div></div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.7">Stuur deze link naar de deelnemers. Ze kiezen gewoon hun naam en kunnen direct voorspellingen invullen.</p>
+        <div class="input-group">
+          <input class="form-inp" id="share-url" type="text" value="https://wk-2026-eta.vercel.app/" readonly style="font-family:var(--mono);font-size:12px;color:var(--text2)" />
+          <button class="btn" onclick="copyUrl()">📋 Kopieer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PUNTENSYSTEEM -->
+  <div id="page-punten" class="page">
+    <div class="page-hd">
+      <div><div class="page-title">Puntensysteem</div><div class="page-sub">Aanpasbaar per wedstrijd en bonus</div></div>
+      <button class="btn btn-primary btn-sm" onclick="savePunten()">Opslaan</button>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Per wedstrijd</div></div>
+        <div class="card-body">
+          <div class="pts-row"><div class="pts-info"><div class="pts-name">Exacte score</div><div class="pts-desc">Bijv. 2–1 = 2–1</div></div><input class="form-inp-sm" type="number" id="pts-exact" value="5" min="1" max="20" /></div>
+          <div class="pts-row"><div class="pts-info"><div class="pts-name">Juiste winnaar</div><div class="pts-desc">Winnaar correct, score niet exact</div></div><input class="form-inp-sm" type="number" id="pts-winnaar" value="3" min="1" max="10" /></div>
+          <div class="pts-row"><div class="pts-info"><div class="pts-name">Fout</div><div class="pts-desc">Winnaar verkeerd</div></div><input class="form-inp-sm" value="0" disabled style="opacity:.4" /></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><div class="card-title">Bonusvragen</div></div>
+        <div class="card-body">
+          <div class="pts-row"><div class="pts-info"><div class="pts-name">Wereldkampioen</div></div><input class="form-inp-sm" type="number" id="pts-kampioen" value="10" min="1" max="50" /></div>
+          <div class="pts-row"><div class="pts-info"><div class="pts-name">Finalist</div></div><input class="form-inp-sm" type="number" id="pts-finalist" value="5" min="1" max="20" /></div>
+          <div class="pts-row"><div class="pts-info"><div class="pts-name">Topscorer #1</div></div><input class="form-inp-sm" type="number" id="pts-scorer1" value="8" min="1" max="20" /></div>
+          <div class="pts-row"><div class="pts-info"><div class="pts-name">Topscorer #2</div></div><input class="form-inp-sm" type="number" id="pts-scorer2" value="5" min="1" max="20" /></div>
+          <div class="pts-row"><div class="pts-info"><div class="pts-name">Topscorer #3</div></div><input class="form-inp-sm" type="number" id="pts-scorer3" value="3" min="1" max="20" /></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Knock-out regels</div></div>
+      <div class="card-body">
+        <div class="toggle-wrap">
+          <label class="toggle"><input type="checkbox" id="tog-verl" checked><span class="toggle-sl"></span></label>
+          <div class="toggle-info"><div class="toggle-lbl">Score na 120 minuten telt</div><div class="toggle-hint">Niet na 90 min. Strafschoppen tellen niet mee voor de score.</div></div>
+        </div>
+        <div class="toggle-wrap">
+          <label class="toggle"><input type="checkbox" id="tog-pen" checked><span class="toggle-sl"></span></label>
+          <div class="toggle-info"><div class="toggle-lbl">Strafschoppen voorspellen</div><div class="toggle-hint">Bij gelijkspel na 120 min ook aangeven wie de penalty's wint.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BONUSVRAGEN -->
+  <div id="page-bonus" class="page">
+    <div class="page-hd">
+      <div><div class="page-title">Bonusvragen</div><div class="page-sub">Overzicht van ingediende antwoorden</div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Overzicht bonusvragen</div></div>
+      <div class="card-body" style="padding:0">
+        <table class="tbl">
+          <thead><tr><th>Naam</th><th>Kampioen</th><th>Finalist</th><th>Scorer 1</th><th>Scorer 2</th><th>Scorer 3</th><th>Status</th></tr></thead>
+          <tbody id="bonus-tbody"></tbody>
         </table>
-
-        <div class="add-player-row" id="add-player-row">
-          <div style="flex:1">
-            <label class="form-label">Naam nieuw deelnemer</label>
-            <input class="form-input" id="new-player-name" type="text"
-              placeholder="Bijv. Oma Riet"
-              onkeydown="if(event.key==='Enter') addPlayer()"
-              style="margin-bottom:0" />
-          </div>
-          <button class="btn btn-primary" onclick="addPlayer()">Toevoegen</button>
-        </div>
       </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Uitnodiging versturen</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div><div class="card-title">Werkelijke einduitslag</div><div class="card-sub">Invullen na afloop toernooi voor bonuspunten</div></div></div>
+      <div class="card-body">
+        <div class="g2" style="gap:12px">
+          <div class="form-group" style="margin:0"><label class="form-lbl">Wereldkampioen</label><input class="form-inp" id="res-kampioen" type="text" placeholder="bijv. Spanje" /></div>
+          <div class="form-group" style="margin:0"><label class="form-lbl">Finalist (verliezend)</label><input class="form-inp" id="res-finalist" type="text" placeholder="bijv. Duitsland" /></div>
         </div>
-        <div class="card-body">
-          <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.7">
-            Stuur deze link naar de deelnemers. Ze hoeven geen account aan te maken — ze kiezen gewoon hun naam en kunnen direct voorspellingen invullen.
-          </p>
+        <div class="g3" style="gap:12px;margin-top:12px">
+          <div class="form-group" style="margin:0"><label class="form-lbl">Topscorer #1</label><input class="form-inp" id="res-s1" type="text" placeholder="bijv. Mbappé" /></div>
+          <div class="form-group" style="margin:0"><label class="form-lbl">Topscorer #2</label><input class="form-inp" id="res-s2" type="text" /></div>
+          <div class="form-group" style="margin:0"><label class="form-lbl">Topscorer #3</label><input class="form-inp" id="res-s3" type="text" /></div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top:14px" onclick="slaEindresultaat()">Eindresultaat opslaan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUPABASE -->
+  <div id="page-supabase" class="page">
+    <div class="page-hd"><div><div class="page-title">Supabase setup</div><div class="page-sub">Verbind de poule met de database</div></div></div>
+    <div class="alert alert-warn">⚠️ De anon key wordt opgeslagen in <code>localStorage</code> van je browser. Kopieer hem ook naar <code>index.html</code> voor productie-gebruik.</div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Verbindingsinstellingen</div></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-lbl">Supabase project URL</label>
+          <input class="form-inp" id="sb-url" type="text" value="https://zrdsgbwdpiypwtnhzjyq.supabase.co" style="font-family:var(--mono);font-size:13px" />
+          <div class="form-hint">Settings → API → Project URL</div>
+        </div>
+        <div class="form-group">
+          <label class="form-lbl">Anon / Public key</label>
           <div class="input-group">
-            <input class="form-input" id="share-url" type="text"
-              value="https://jouwgebruikersnaam.github.io/wk2026-poule/"
-              readonly style="font-family:var(--mono);font-size:12px;color:var(--text2)" />
-            <button class="btn" onclick="copyUrl()">📋 Kopieer</button>
+            <input class="form-inp" id="sb-key" type="password" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="font-family:var(--mono);font-size:12px" />
+            <button class="btn btn-sm" onclick="toggleVis('sb-key')">👁</button>
           </div>
-          <div class="form-hint">Pas de URL aan naar jouw GitHub Pages adres nadat je de poule gepubliceerd hebt.</div>
+          <div class="form-hint">Settings → API → Project API keys → <strong>anon public</strong> (ook wel "Publishable key")</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <button class="btn btn-primary btn-sm" onclick="saveSB()">Opslaan</button>
+          <button class="btn btn-sm" onclick="testSB()">Verbinding testen</button>
+          <span id="sb-result" style="font-size:12px;color:var(--text3)"></span>
         </div>
       </div>
     </div>
-
-    <!-- ─── PUNTENSYSTEEM ─── -->
-    <div id="page-punten" class="page">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Puntensysteem</div>
-          <div class="page-sub">Stel in hoeveel punten elke actie oplevert</div>
-        </div>
-        <button class="btn btn-primary btn-sm" onclick="savePunten()">Opslaan</button>
-      </div>
-
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Per wedstrijd</div>
-          </div>
-          <div class="card-body">
-            <div class="pts-row">
-              <div class="pts-info">
-                <div class="pts-name">Exacte score</div>
-                <div class="pts-desc">Bijv. 2–1 voorspeld én 2–1 eindstand</div>
-              </div>
-              <input class="form-input-sm" type="number" id="pts-exact" value="5" min="1" max="20" />
-            </div>
-            <div class="pts-row">
-              <div class="pts-info">
-                <div class="pts-name">Juiste winnaar</div>
-                <div class="pts-desc">Winnaar correct, maar niet exacte score</div>
-              </div>
-              <input class="form-input-sm" type="number" id="pts-winnaar" value="3" min="1" max="10" />
-            </div>
-            <div class="pts-row">
-              <div class="pts-info">
-                <div class="pts-name">Fout</div>
-                <div class="pts-desc">Winnaar verkeerd voorspeld</div>
-              </div>
-              <input class="form-input-sm" type="number" id="pts-fout" value="0" min="0" max="5"
-                style="color:var(--text3)" disabled />
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Bonusvragen</div>
-          </div>
-          <div class="card-body">
-            <div class="pts-row">
-              <div class="pts-info">
-                <div class="pts-name">Wereldkampioen</div>
-                <div class="pts-desc">Juiste kampioen vóór het toernooi</div>
-              </div>
-              <input class="form-input-sm" type="number" id="pts-kampioen" value="10" min="1" max="50" />
-            </div>
-            <div class="pts-row">
-              <div class="pts-info">
-                <div class="pts-name">Finalist</div>
-                <div class="pts-desc">Verliezend finalist correct</div>
-              </div>
-              <input class="form-input-sm" type="number" id="pts-finalist" value="5" min="1" max="20" />
-            </div>
-            <div class="pts-row">
-              <div class="pts-info">
-                <div class="pts-name">Topscorer #1</div>
-                <div class="pts-desc">Beste topscorer juist geraden</div>
-              </div>
-              <input class="form-input-sm" type="number" id="pts-scorer1" value="8" min="1" max="20" />
-            </div>
-            <div class="pts-row">
-              <div class="pts-info">
-                <div class="pts-name">Topscorer #2</div>
-                <div class="pts-desc">Tweede topscorer juist geraden</div>
-              </div>
-              <input class="form-input-sm" type="number" id="pts-scorer2" value="5" min="1" max="20" />
-            </div>
-            <div class="pts-row">
-              <div class="pts-info">
-                <div class="pts-name">Topscorer #3</div>
-                <div class="pts-desc">Derde topscorer juist geraden</div>
-              </div>
-              <input class="form-input-sm" type="number" id="pts-scorer3" value="3" min="1" max="20" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Knock-out rondes</div>
-        </div>
-        <div class="card-body">
-          <div class="toggle-wrap">
-            <label class="toggle">
-              <input type="checkbox" id="toggle-verlenging" checked>
-              <span class="toggle-slider"></span>
-            </label>
-            <div class="toggle-info">
-              <div class="toggle-label">Rekening houden met verlengingen</div>
-              <div class="toggle-hint">Score na 120 min telt, niet na 90 min. Strafschoppen tellen niet mee voor de score.</div>
-            </div>
-          </div>
-          <div class="toggle-wrap">
-            <label class="toggle">
-              <input type="checkbox" id="toggle-penalties" checked>
-              <span class="toggle-slider"></span>
-            </label>
-            <div class="toggle-info">
-              <div class="toggle-label">Strafschoppenreeks voorspellen</div>
-              <div class="toggle-hint">Als het gelijkstaat na 120 min moet de deelnemer ook aangeven wie de strafschoppen wint. Juist = +3 punten.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─── WEDSTRIJDEN ─── -->
-    <div id="page-wedstrijden" class="page">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Wedstrijden</div>
-          <div class="page-sub">Handmatig uitslagen aanpassen of toevoegen</div>
-        </div>
-      </div>
-
-      <div class="alert alert-success">
-        <span>✓</span>
-        <div>Uitslagen worden automatisch opgehaald via de football-data.org API als je een API-sleutel hebt ingesteld. Hier kun je uitslagen handmatig corrigeren of toevoegen als de API uitvalt.</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Uitslag handmatig invoeren</div>
-            <div class="card-sub">Gebruik dit als backup of voor testwedstrijden</div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="grid-2" style="gap:12px;margin-bottom:12px">
-            <div class="form-group" style="margin:0">
-              <label class="form-label">Wedstrijd ID</label>
-              <input class="form-input" type="number" id="manual-match-id" placeholder="bijv. 1001" />
-              <div class="form-hint">Vind het ID in de football-data.org response</div>
-            </div>
-            <div class="form-group" style="margin:0">
-              <label class="form-label">Status</label>
-              <select class="form-input" id="manual-status">
-                <option value="FINISHED">Afgespeeld (FINISHED)</option>
-                <option value="IN_PLAY">Live (IN_PLAY)</option>
-                <option value="SCHEDULED">Gepland (SCHEDULED)</option>
-              </select>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-            <div style="flex:1">
-              <label class="form-label">Thuis team</label>
-              <input class="form-input" type="text" id="manual-thuis-naam" placeholder="bijv. Nederland" />
-            </div>
-            <div style="text-align:center;padding-top:20px">
-              <input class="form-input-sm" type="number" id="manual-thuis-score" placeholder="0" min="0" />
-            </div>
-            <div style="font-size:18px;color:var(--text3);padding-top:18px">–</div>
-            <div style="text-align:center;padding-top:20px">
-              <input class="form-input-sm" type="number" id="manual-uit-score" placeholder="0" min="0" />
-            </div>
-            <div style="flex:1;text-align:right">
-              <label class="form-label" style="text-align:right;display:block">Uit team</label>
-              <input class="form-input" type="text" id="manual-uit-naam" placeholder="bijv. Japan" />
-            </div>
-          </div>
-          <button class="btn btn-primary btn-sm" onclick="slaManualUitslagOp()">Uitslag opslaan</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Handmatig ingevoerde uitslagen</div>
-        </div>
-        <div class="card-body" id="manual-results-list">
-          <div style="font-size:13px;color:var(--text3);text-align:center;padding:20px 0">
-            Nog geen handmatige uitslagen ingevoerd.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─── BONUS ─── -->
-    <div id="page-bonus" class="page">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Bonusvragen</div>
-          <div class="page-sub">Overzicht van alle ingediende bonusantwoorden</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Ingediende bonusvragen</div>
-        </div>
-        <div class="card-body" style="padding:0">
-          <table class="player-table">
-            <thead>
-              <tr>
-                <th>Deelnemer</th>
-                <th>Kampioen</th>
-                <th>Finalist</th>
-                <th>Topscorer 1</th>
-                <th>Topscorer 2</th>
-                <th>Topscorer 3</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="bonus-table-body">
-              <!-- JS renders this -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Werkelijke einduitslag invoeren</div>
-          <div class="card-sub">Vul dit in na afloop van het toernooi om bonuspunten te berekenen</div>
-        </div>
-        <div class="card-body">
-          <div class="grid-2" style="gap:12px">
-            <div class="form-group" style="margin:0">
-              <label class="form-label">Wereldkampioen</label>
-              <input class="form-input" id="result-kampioen" type="text" placeholder="bijv. Spanje" />
-            </div>
-            <div class="form-group" style="margin:0">
-              <label class="form-label">Finalist (verliezend)</label>
-              <input class="form-input" id="result-finalist" type="text" placeholder="bijv. Duitsland" />
-            </div>
-          </div>
-          <div class="grid-3" style="gap:12px;margin-top:12px">
-            <div class="form-group" style="margin:0">
-              <label class="form-label">Topscorer #1</label>
-              <input class="form-input" id="result-scorer1" type="text" placeholder="bijv. Mbappé" />
-            </div>
-            <div class="form-group" style="margin:0">
-              <label class="form-label">Topscorer #2</label>
-              <input class="form-input" id="result-scorer2" type="text" placeholder="bijv. Ronaldo" />
-            </div>
-            <div class="form-group" style="margin:0">
-              <label class="form-label">Topscorer #3</label>
-              <input class="form-input" id="result-scorer3" type="text" placeholder="bijv. Lewandowski" />
-            </div>
-          </div>
-          <button class="btn btn-primary btn-sm" style="margin-top:14px" onclick="slaEindresultaat()">Eindresultaat opslaan</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─── SUPABASE ─── -->
-    <div id="page-supabase" class="page">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Supabase setup</div>
-          <div class="page-sub">Verbind de poule met je gratis database</div>
-        </div>
-      </div>
-
-      <div class="alert alert-warning">
-        <span>⚠️</span>
-        <div>Nadat je hier opslaat worden de waarden opgeslagen in <code style="font-family:var(--mono);font-size:11px;background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px">localStorage</code> van je browser. Kopieer ze daarna ook handmatig naar de <code style="font-family:var(--mono);font-size:11px">CONFIG</code> bovenaan <code style="font-family:var(--mono);font-size:11px">index.html</code> voor productie.</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Verbindingsinstellingen</div>
-        </div>
-        <div class="card-body">
-          <div class="form-group">
-            <label class="form-label">Supabase project URL</label>
-            <input class="form-input" id="sb-url" type="text"
-              placeholder="https://xyzxyzxyz.supabase.co"
-              style="font-family:var(--mono);font-size:13px" />
-            <div class="form-hint">Te vinden in je Supabase project → Settings → API → Project URL</div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Anon / Public key</label>
-            <div class="input-group">
-              <input class="form-input" id="sb-key" type="password"
-                placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                style="font-family:var(--mono);font-size:12px" />
-              <button class="btn btn-sm" onclick="toggleKeyVisibility()">👁</button>
-            </div>
-            <div class="form-hint">Te vinden in je Supabase project → Settings → API → Project API keys → anon public</div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:center">
-            <button class="btn btn-primary btn-sm" onclick="saveSBConfig()">Opslaan</button>
-            <button class="btn btn-sm" onclick="testSBConnection()">Verbinding testen</button>
-            <span id="sb-test-result" style="font-size:12px;color:var(--text3)"></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Database tabellen aanmaken</div>
-          <div class="card-sub">Plak dit in Supabase → SQL Editor → New query</div>
-        </div>
-        <div class="card-body">
-          <div class="code-block">-- Tabel 1: Voorspellingen per wedstrijd
-CREATE TABLE IF NOT EXISTS voorspellingen (
+    <div class="card">
+      <div class="card-hd"><div><div class="card-title">SQL tabellen aanmaken</div><div class="card-sub">Plak dit in Supabase → SQL Editor → New query → Run</div></div></div>
+      <div class="card-body">
+        <div class="code-block">CREATE TABLE IF NOT EXISTS voorspellingen (
   id          uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   match_id    integer NOT NULL,
   speler      text NOT NULL,
   score_thuis integer,
   score_uit   integer,
   pen_winnaar text,
-  created_at  timestamptz DEFAULT now(),
   UNIQUE (match_id, speler)
 );
 
--- Tabel 2: Bonusvragen per speler
 CREATE TABLE IF NOT EXISTS bonus (
   id        uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   speler    text NOT NULL UNIQUE,
@@ -1021,544 +368,386 @@ CREATE TABLE IF NOT EXISTS bonus (
   scorer3   text
 );
 
--- Tabel 3: Handmatige uitslagen (backup)
-CREATE TABLE IF NOT EXISTS manual_results (
-  match_id   integer PRIMARY KEY,
-  thuis_naam text,
-  uit_naam   text,
-  score_thuis integer,
-  score_uit  integer,
-  status     text,
-  updated_at timestamptz DEFAULT now()
-);
-
--- Row Level Security uitschakelen (publiek leesbaar, iedereen kan schrijven)
--- Let op: voor een familiepoule is dit prima, niet voor productie-apps
 ALTER TABLE voorspellingen ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bonus           ENABLE ROW LEVEL SECURITY;
-ALTER TABLE manual_results  ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "public read"  ON voorspellingen FOR SELECT USING (true);
-CREATE POLICY "public write" ON voorspellingen FOR INSERT WITH CHECK (true);
-CREATE POLICY "public update" ON voorspellingen FOR UPDATE USING (true);
-CREATE POLICY "public read"  ON bonus           FOR SELECT USING (true);
-CREATE POLICY "public write" ON bonus           FOR INSERT WITH CHECK (true);
-CREATE POLICY "public update" ON bonus          FOR UPDATE USING (true);
-CREATE POLICY "public read"  ON manual_results  FOR SELECT USING (true);
-CREATE POLICY "public write" ON manual_results  FOR INSERT WITH CHECK (true);
-CREATE POLICY "public update" ON manual_results FOR UPDATE USING (true);</div>
-          <button class="btn btn-sm" style="margin-top:10px" onclick="copySQL()">📋 SQL kopiëren</button>
+CREATE POLICY "open" ON voorspellingen FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "open" ON bonus           FOR ALL USING (true) WITH CHECK (true);</div>
+        <button class="btn btn-sm" style="margin-top:10px" onclick="copySQL()">📋 SQL kopiëren</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- API -->
+  <div id="page-api" class="page">
+    <div class="page-hd"><div><div class="page-title">API & scores</div><div class="page-sub">Live uitslagen via Vercel proxy</div></div></div>
+    <div class="alert alert-success">✓ Proxy URL ingesteld: <strong>https://wk-2026-eta.vercel.app/api/scores</strong></div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">football-data.org token</div></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-lbl">API token</label>
+          <div class="input-group">
+            <input class="form-inp" id="football-key" type="password" style="font-family:var(--mono);font-size:13px" placeholder="55228a28…" />
+            <button class="btn btn-sm" onclick="toggleVis('football-key')">👁</button>
+          </div>
+          <div class="form-hint">
+            Deze token staat in <code>api/scores.js</code> op Vercel — je hoeft hem hier alleen op te slaan voor referentie. Verificeer je e-mail op football-data.org anders vervalt je account.
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <button class="btn btn-primary btn-sm" onclick="saveFootball()">Opslaan</button>
+          <button class="btn btn-sm" onclick="testProxy()">Proxy testen</button>
+          <span id="api-result" style="font-size:12px;color:var(--text3)"></span>
         </div>
       </div>
     </div>
-
-    <!-- ─── API ─── -->
-    <div id="page-api" class="page">
-      <div class="page-header">
-        <div>
-          <div class="page-title">API & live scores</div>
-          <div class="page-sub">Stel automatische uitslagen in via football-data.org</div>
+    <div class="card">
+      <div class="card-hd"><div><div class="card-title">Testmodus</div><div class="card-sub">WK 2022 data gebruiken zolang WK 2026 nog niet begonnen is</div></div></div>
+      <div class="card-body">
+        <div class="toggle-wrap">
+          <label class="toggle"><input type="checkbox" id="tog-test" checked><span class="toggle-sl"></span></label>
+          <div class="toggle-info">
+            <div class="toggle-lbl">Testmodus aan (WK 2022)</div>
+            <div class="toggle-hint">Zet dit uit op 11 juni 2026 als het WK begint. Pas dan ook <code>api/scores.js</code> aan van competitie 2021 naar 2000.</div>
+          </div>
         </div>
+        <button class="btn btn-primary btn-sm" style="margin-top:14px" onclick="saveTestmodus()">Opslaan</button>
       </div>
+    </div>
+  </div>
 
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Football-data.org API</div>
-        </div>
-        <div class="card-body">
-          <div class="form-group">
-            <label class="form-label">API sleutel</label>
-            <div class="input-group">
-              <input class="form-input" id="football-api-key" type="password"
-                placeholder="Jouw gratis API sleutel"
-                style="font-family:var(--mono);font-size:13px" />
-              <button class="btn btn-sm" onclick="toggleFootballKey()">👁</button>
-            </div>
-            <div class="form-hint">
-              Gratis registreren op <a href="https://www.football-data.org/client/register" target="_blank"
-              style="color:var(--orange)">football-data.org</a>. De gratis tier bevat alle WK-wedstrijden (competitie ID: 2000). Scores worden elke 60 seconden ververst.
-            </div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:center">
-            <button class="btn btn-primary btn-sm" onclick="saveAPIKey()">Opslaan</button>
-            <button class="btn btn-sm" onclick="testAPI()">API testen</button>
-            <span id="api-test-result" style="font-size:12px;color:var(--text3)"></span>
-          </div>
-        </div>
+  <!-- INSTELLINGEN -->
+  <div id="page-instellingen" class="page">
+    <div class="page-hd"><div><div class="page-title">Instellingen</div><div class="page-sub">Algemene poule instellingen</div></div></div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Poule instellingen</div></div>
+      <div class="card-body">
+        <div class="form-group"><label class="form-lbl">Naam van de poule</label><input class="form-inp" id="poule-naam" type="text" value="Familie" /></div>
+        <div class="form-group"><label class="form-lbl">Vercel URL</label><input class="form-inp" id="poule-url" type="text" value="https://wk-2026-eta.vercel.app/" style="font-family:var(--mono);font-size:13px" /></div>
+        <button class="btn btn-primary btn-sm" onclick="saveInst()">Opslaan</button>
       </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Verversinterval</div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title">Functionaliteit</div></div>
+      <div class="card-body">
+        <div class="toggle-wrap">
+          <label class="toggle"><input type="checkbox" id="tog-open" checked><span class="toggle-sl"></span></label>
+          <div class="toggle-info"><div class="toggle-lbl">Poule open voor voorspellingen</div><div class="toggle-hint">Zet uit als de groepsfase is begonnen</div></div>
         </div>
-        <div class="card-body">
-          <div class="pts-row">
-            <div class="pts-info">
-              <div class="pts-name">Live verversing (seconden)</div>
-              <div class="pts-desc">Hoe vaak worden live scores opgehaald</div>
-            </div>
-            <input class="form-input-sm" type="number" id="refresh-interval" value="60" min="30" max="300" />
-          </div>
-          <div class="pts-row">
-            <div class="pts-info">
-              <div class="pts-name">Stand bijwerken na wedstrijd</div>
-              <div class="pts-desc">Automatisch punten berekenen na afloop</div>
-            </div>
-            <label class="toggle" style="margin-top:4px">
-              <input type="checkbox" id="toggle-auto-punten" checked>
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          <button class="btn btn-sm btn-primary" style="margin-top:12px" onclick="saveAPISettings()">Instellingen opslaan</button>
+        <div class="toggle-wrap">
+          <label class="toggle"><input type="checkbox" id="tog-toon" checked><span class="toggle-sl"></span></label>
+          <div class="toggle-info"><div class="toggle-lbl">Voorspellingen van anderen zichtbaar</div><div class="toggle-hint">Verbergen totdat wedstrijd begint</div></div>
         </div>
       </div>
     </div>
-
-    <!-- ─── INSTELLINGEN ─── -->
-    <div id="page-instellingen" class="page">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Instellingen</div>
-          <div class="page-sub">Algemene poule instellingen</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Poule instellingen</div>
-        </div>
-        <div class="card-body">
-          <div class="form-group">
-            <label class="form-label">Naam van de poule</label>
-            <input class="form-input" id="poule-naam" type="text" value="Familie de Vries" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">GitHub Pages URL</label>
-            <input class="form-input" id="poule-url" type="text"
-              placeholder="https://username.github.io/wk2026-poule"
-              style="font-family:var(--mono);font-size:13px" />
-            <div class="form-hint">Wordt gebruikt voor de uitnodigingslink</div>
-          </div>
-          <button class="btn btn-primary btn-sm" onclick="saveInstellingen()">Opslaan</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Functionaliteit</div>
-        </div>
-        <div class="card-body">
-          <div class="toggle-wrap">
-            <label class="toggle">
-              <input type="checkbox" id="toggle-poule-open" checked>
-              <span class="toggle-slider"></span>
-            </label>
-            <div class="toggle-info">
-              <div class="toggle-label">Poule open voor voorspellingen</div>
-              <div class="toggle-hint">Zet dit uit als het WK begonnen is en de groepsfase voorspellingen gesloten zijn</div>
-            </div>
-          </div>
-          <div class="toggle-wrap">
-            <label class="toggle">
-              <input type="checkbox" id="toggle-show-others" checked>
-              <span class="toggle-slider"></span>
-            </label>
-            <div class="toggle-info">
-              <div class="toggle-label">Voorspellingen van anderen zichtbaar</div>
-              <div class="toggle-hint">Uitschakelen verbergt andermans voorspellingen totdat de wedstrijd begint</div>
-            </div>
-          </div>
-          <div class="toggle-wrap">
-            <label class="toggle">
-              <input type="checkbox" id="toggle-bonus-open" checked>
-              <span class="toggle-slider"></span>
-            </label>
-            <div class="toggle-info">
-              <div class="toggle-label">Bonusvragen open</div>
-              <div class="toggle-hint">Sluit automatisch op 11 juni 2026 21:00 NL-tijd</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="border-color:rgba(224,96,96,0.2)">
-        <div class="card-header" style="border-bottom-color:rgba(224,96,96,0.15)">
-          <div class="card-title" style="color:var(--red)">Gevaarlijke zone</div>
-        </div>
-        <div class="card-body">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <div>
-              <div style="font-size:14px;color:var(--text)">Alle voorspellingen wissen</div>
-              <div style="font-size:11px;color:var(--text3);margin-top:2px">Verwijdert alle ingevoerde voorspellingen uit de database</div>
-            </div>
-            <button class="btn btn-danger btn-sm" onclick="confirmWipe('voorspellingen')">Wissen</button>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <div style="font-size:14px;color:var(--text)">Poule resetten</div>
-              <div style="font-size:11px;color:var(--text3);margin-top:2px">Wist alles: voorspellingen, bonusvragen en deelnemers</div>
-            </div>
-            <button class="btn btn-danger btn-sm" onclick="confirmWipe('alles')">Reset poule</button>
-          </div>
+    <div class="card" style="border-color:rgba(224,96,96,0.2)">
+      <div class="card-hd" style="border-bottom-color:rgba(224,96,96,0.15)"><div class="card-title" style="color:var(--red)">Gevaarlijke zone</div></div>
+      <div class="card-body">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-size:14px">Alle voorspellingen wissen</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Verwijdert alles uit de Supabase database</div></div>
+          <button class="btn btn-danger btn-sm" onclick="wipeBevestig()">Wissen</button>
         </div>
       </div>
     </div>
+  </div>
 
-  </main>
+</main>
 </div>
 
-<!-- TOAST -->
 <div id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+const SB_URL_DEFAULT = 'https://zrdsgbwdpiypwtnhzjyq.supabase.co';
+
 let deelnemers = JSON.parse(localStorage.getItem('wk26_admin_deelnemers') || 'null') || [
-  { naam: 'Wouter',         actief: true,  kampioen: 'Nederland',  voorspellingen: 3 },
-  { naam: 'Anne-Charlotte', actief: true,  kampioen: 'Spanje',     voorspellingen: 3 },
-  { naam: 'Maurits',        actief: true,  kampioen: 'Brazilië',   voorspellingen: 2 },
-  { naam: 'Florine',        actief: true,  kampioen: 'Portugal',   voorspellingen: 3 },
-  { naam: 'Papa',           actief: true,  kampioen: '',           voorspellingen: 1 },
-  { naam: 'Mama',           actief: false, kampioen: '',           voorspellingen: 0 },
+  {naam:'Wouter',actief:true,kampioen:'Nederland'},
+  {naam:'Anne-Charlotte',actief:true,kampioen:'Spanje'},
+  {naam:'Maurits',actief:true,kampioen:'Brazilië'},
+  {naam:'Florine',actief:true,kampioen:'Portugal'},
+  {naam:'Papa',actief:true,kampioen:''},
+  {naam:'Mama',actief:true,kampioen:''},
 ];
 
-let bonusRows = JSON.parse(localStorage.getItem('wk26_admin_bonus') || 'null') || [
-  { naam: 'Wouter',         kampioen: 'Nederland',  finalist: 'Brazilië',  s1: 'Van Dijk', s2: 'Mbappé',  s3: 'Ronaldo' },
-  { naam: 'Anne-Charlotte', kampioen: 'Spanje',     finalist: 'Duitsland', s1: 'Mbappé',  s2: 'Pedri',   s3: '' },
-  { naam: 'Maurits',        kampioen: 'Brazilië',   finalist: 'Argentinië',s1: 'Vinicius', s2: 'Messi',  s3: 'Haaland' },
-  { naam: 'Florine',        kampioen: 'Portugal',   finalist: 'Spanje',    s1: 'Ronaldo', s2: 'Pedri',   s3: '' },
-  { naam: 'Papa',           kampioen: '',           finalist: '',          s1: '',        s2: '',         s3: '' },
-  { naam: 'Mama',           kampioen: '',           finalist: '',          s1: '',        s2: '',         s3: '' },
-];
+let bonusRows = JSON.parse(localStorage.getItem('wk26_admin_bonus') || 'null') || [];
 
-let manualResults = JSON.parse(localStorage.getItem('wk26_manual_results') || '[]');
-
-// ═══════════════════════════════════════════
-//  NAVIGATIE
-// ═══════════════════════════════════════════
-function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-
-  document.getElementById('page-' + name).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => {
-    if (n.textContent.trim().toLowerCase().includes(name.slice(0,5).toLowerCase())) {
-      n.classList.add('active');
-    }
+/* ══════════════════════════════════════════
+   SUPABASE
+══════════════════════════════════════════ */
+async function sbFetch(method, table, body=null, query='') {
+  const url = document.getElementById('sb-url')?.value.trim() || localStorage.getItem('wk26_sb_url') || SB_URL_DEFAULT;
+  const key = document.getElementById('sb-key')?.value.trim() || localStorage.getItem('wk26_sb_key') || '';
+  if (!key) throw new Error('geen_key');
+  const r = await fetch(`${url}/rest/v1/${table}${query}`, {
+    method,
+    headers: {
+      'apikey': key, 'Authorization': `Bearer ${key}`,
+      'Content-Type': 'application/json',
+      'Prefer': method==='POST' ? 'resolution=merge-duplicates,return=representation' : 'return=representation',
+    },
+    body: body ? JSON.stringify(body) : undefined,
   });
-
-  // Render juiste pagina
-  if (name === 'dashboard')    renderDashboard();
-  if (name === 'deelnemers')   renderDeelnemers();
-  if (name === 'bonus')        renderBonus();
-  if (name === 'supabase')     loadSBConfig();
-  if (name === 'api')          loadAPIConfig();
+  if (!r.ok) throw new Error(r.status);
+  return r.headers.get('content-type')?.includes('json') ? r.json() : [];
 }
 
-// ═══════════════════════════════════════════
-//  DASHBOARD
-// ═══════════════════════════════════════════
-function renderDashboard() {
-  document.getElementById('stat-deelnemers').textContent = deelnemers.filter(d => d.actief).length;
-  document.getElementById('stat-gespeeld').textContent   = '3';
-  document.getElementById('stat-voorspeld').textContent  = deelnemers.reduce((s, d) => s + d.voorspellingen, 0);
+/* ══════════════════════════════════════════
+   NAVIGATIE
+══════════════════════════════════════════ */
+function show(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  // Activeer juiste nav item
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    if(n.getAttribute('onclick')?.includes(`'${name}'`)) n.classList.add('active');
+  });
+  if(name==='dashboard')   renderDashboard();
+  if(name==='deelnemers')  renderDeelnemers();
+  if(name==='bonus')       renderBonus();
+  if(name==='supabase')    laadSBConfig();
+  if(name==='api')         laadAPIConfig();
+  if(name==='punten')      laadPunten();
+}
 
-  const tbody = document.getElementById('stand-preview');
-  const gesorteerd = [...deelnemers].filter(d => d.actief).sort((a, b) => b.voorspellingen - a.voorspellingen);
-  tbody.innerHTML = gesorteerd.map((d, i) => `
+/* ══════════════════════════════════════════
+   DASHBOARD
+══════════════════════════════════════════ */
+async function renderDashboard() {
+  const actief = deelnemers.filter(d=>d.actief).length;
+  document.getElementById('st-deelnemers').textContent = actief;
+
+  // Check bonus volledigheid
+  const bonusVolledig = deelnemers.filter(d => {
+    const b = bonusRows.find(r=>r.naam===d.naam);
+    return b?.kampioen && b?.finalist;
+  }).length;
+  document.getElementById('st-bonus').textContent = `${bonusVolledig}/${actief}`;
+
+  // Supabase test
+  const stEl = document.getElementById('st-verbinding');
+  const verbEl = document.getElementById('dash-verbinding');
+  try {
+    await sbFetch('GET','bonus',null,'?limit=1');
+    stEl.textContent = '✓ OK';
+    stEl.style.color = 'var(--green)';
+    verbEl.innerHTML = `<div style="font-size:13px;color:var(--green)">✓ Supabase verbonden</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:6px">URL: ${SB_URL_DEFAULT}</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:3px">Proxy: https://wk-2026-eta.vercel.app/api/scores</div>`;
+  } catch {
+    stEl.textContent = '✗ Fout';
+    stEl.style.color = 'var(--red)';
+    verbEl.innerHTML = `<div style="font-size:13px;color:var(--red)">✗ Geen verbinding</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:6px">Ga naar <strong>Supabase setup</strong> en vul je anon key in.</div>`;
+  }
+
+  const tbody = document.getElementById('dash-stand');
+  tbody.innerHTML = deelnemers.filter(d=>d.actief).map((d,i)=>`
     <tr>
       <td style="color:var(--text3);font-size:13px;text-align:center">${i+1}</td>
-      <td>
-        <div class="player-cell">
-          <div class="player-avatar-sm">${d.naam.slice(0,2).toUpperCase()}</div>
-          <div>
-            <div class="player-name-cell">${d.naam}</div>
-            <div class="player-detail">${d.kampioen ? '🏆 ' + d.kampioen : '—'}</div>
-          </div>
-        </div>
-      </td>
-      <td style="font-family:var(--mono);font-size:15px;color:var(--orange);text-align:right">${d.voorspellingen * 5}</td>
-      <td>
-        <div style="display:flex;align-items:center;gap:6px">
-          <div class="status-dot ${d.actief ? 'active' : 'inactive'}"></div>
-          <span style="font-size:11px;color:var(--text3)">${d.actief ? 'Actief' : 'Inactief'}</span>
-        </div>
-      </td>
+      <td><div class="pl-cell"><div class="pl-av">${d.naam.slice(0,2).toUpperCase()}</div>
+        <div><div class="pl-name">${d.naam}</div><div class="pl-detail">${d.kampioen?'🏆 '+d.kampioen:'—'}</div></div></div></td>
+      <td style="font-size:13px;color:var(--text2)">${d.kampioen||'<span style="color:var(--text3)">Niet ingevuld</span>'}</td>
+      <td><div style="display:flex;align-items:center;gap:6px"><div class="s-dot on"></div><span style="font-size:11px;color:var(--text3)">Actief</span></div></td>
     </tr>`).join('');
 }
 
-// ═══════════════════════════════════════════
-//  DEELNEMERS
-// ═══════════════════════════════════════════
+/* ══════════════════════════════════════════
+   DEELNEMERS
+══════════════════════════════════════════ */
 function renderDeelnemers() {
-  document.getElementById('player-count-label').textContent = `${deelnemers.length} deelnemers · ${deelnemers.filter(d=>d.actief).length} actief`;
-
-  const tbody = document.getElementById('player-table-body');
-  tbody.innerHTML = deelnemers.map((d, i) => `
+  document.getElementById('pl-count').textContent = `${deelnemers.length} deelnemers · ${deelnemers.filter(d=>d.actief).length} actief`;
+  const tbody = document.getElementById('pl-tbody');
+  tbody.innerHTML = deelnemers.map((d,i)=>`
     <tr>
-      <td style="color:var(--text3);font-size:13px;text-align:center">${i+1}</td>
-      <td>
-        <div class="player-cell">
-          <div class="player-avatar-sm" style="${d.actief ? 'border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.08);color:var(--orange)' : ''}">${d.naam.slice(0,2).toUpperCase()}</div>
-          <div>
-            <div class="player-name-cell">${d.naam}</div>
-            <div class="player-detail">${d.actief ? 'Kan voorspellingen invullen' : 'Tijdelijk uitgeschakeld'}</div>
-          </div>
-        </div>
-      </td>
-      <td style="font-size:13px;color:var(--text2)">${d.kampioen ? '🏆 ' + d.kampioen : '<span style="color:var(--text3)">Nog niet ingevuld</span>'}</td>
-      <td>
-        <span style="font-family:var(--mono);font-size:13px;color:var(--orange)">${d.voorspellingen}</span>
-        <span style="font-size:11px;color:var(--text3)"> / 72</span>
-      </td>
-      <td>
-        <div style="display:flex;align-items:center;gap:6px">
-          <div class="status-dot ${d.actief ? 'active' : 'inactive'}"></div>
-          <span class="badge ${d.actief ? 'badge-green' : 'badge-gray'}">${d.actief ? 'Actief' : 'Inactief'}</span>
-        </div>
-      </td>
-      <td>
-        <div style="display:flex;gap:5px">
-          <button class="btn btn-icon btn-sm" title="${d.actief ? 'Deactiveren' : 'Activeren'}"
-            onclick="togglePlayerActief(${i})">${d.actief ? '🔇' : '✅'}</button>
-          <button class="btn btn-icon btn-sm btn-danger" title="Verwijderen"
-            onclick="removePlayer(${i})">✕</button>
-        </div>
-      </td>
+      <td style="color:var(--text3);text-align:center">${i+1}</td>
+      <td><div class="pl-cell">
+        <div class="pl-av" style="${d.actief?'border-color:var(--oborder);background:var(--odim);color:var(--orange)':''}">${d.naam.slice(0,2).toUpperCase()}</div>
+        <div><div class="pl-name">${d.naam}</div><div class="pl-detail">${d.actief?'Actief':'Inactief'}</div></div>
+      </div></td>
+      <td style="font-size:13px;color:var(--text2)">${d.kampioen?'🏆 '+d.kampioen:'<span style="color:var(--text3)">—</span>'}</td>
+      <td><span class="badge ${d.actief?'badge-green':'badge-gray'}">${d.actief?'Actief':'Inactief'}</span></td>
+      <td><div style="display:flex;gap:5px">
+        <button class="btn btn-icon btn-sm" title="${d.actief?'Deactiveren':'Activeren'}" onclick="toggleActief(${i})">${d.actief?'🔇':'✅'}</button>
+        <button class="btn btn-icon btn-sm btn-danger" onclick="removePlayer(${i})">✕</button>
+      </div></td>
     </tr>`).join('');
 }
 
-function togglePlayerActief(i) {
+function toggleActief(i) {
   deelnemers[i].actief = !deelnemers[i].actief;
-  saveDeelnemers();
-  renderDeelnemers();
-  toast(`${deelnemers[i].naam} is nu ${deelnemers[i].actief ? 'actief' : 'inactief'}`, 'success');
+  saveDeelnemers(); renderDeelnemers();
+  toast(`${deelnemers[i].naam} is ${deelnemers[i].actief?'actief':'inactief'}`, 'success');
 }
 
 function removePlayer(i) {
-  if (!confirm(`Weet je zeker dat je ${deelnemers[i].naam} wilt verwijderen? Alle voorspellingen van deze deelnemer gaan verloren.`)) return;
+  if (!confirm(`Weet je zeker dat je ${deelnemers[i].naam} wilt verwijderen?`)) return;
   const naam = deelnemers[i].naam;
-  deelnemers.splice(i, 1);
-  saveDeelnemers();
-  renderDeelnemers();
+  deelnemers.splice(i,1);
+  saveDeelnemers(); renderDeelnemers();
   toast(`${naam} verwijderd`, 'success');
 }
 
 function addPlayer() {
-  const input = document.getElementById('new-player-name');
-  const naam = input.value.trim();
-  if (!naam) { toast('Vul een naam in', 'error'); return; }
-  if (deelnemers.find(d => d.naam.toLowerCase() === naam.toLowerCase())) {
-    toast('Deze naam bestaat al', 'error'); return;
-  }
-  deelnemers.push({ naam, actief: true, kampioen: '', voorspellingen: 0 });
-  bonusRows.push({ naam, kampioen: '', finalist: '', s1: '', s2: '', s3: '' });
-  saveDeelnemers();
-  renderDeelnemers();
-  input.value = '';
-  toast(`${naam} toegevoegd ✓`, 'success');
+  const inp = document.getElementById('new-name');
+  const naam = inp.value.trim();
+  if (!naam) { toast('Vul een naam in','error'); return; }
+  if (deelnemers.find(d=>d.naam.toLowerCase()===naam.toLowerCase())) { toast('Naam bestaat al','error'); return; }
+  deelnemers.push({naam,actief:true,kampioen:''});
+  saveDeelnemers(); renderDeelnemers();
+  inp.value='';
+  toast(`${naam} toegevoegd ✓`,'success');
 }
 
-function focusAddPlayer() {
-  showPage('deelnemers');
-  setTimeout(() => document.getElementById('new-player-name').focus(), 100);
-}
+function focusAdd() { show('deelnemers'); setTimeout(()=>document.getElementById('new-name').focus(),100); }
 
 function saveDeelnemers() {
   localStorage.setItem('wk26_admin_deelnemers', JSON.stringify(deelnemers));
-  syncDeelnemersToMainConfig();
+  localStorage.setItem('wk26_deelnemers', JSON.stringify(deelnemers.filter(d=>d.actief).map(d=>d.naam)));
 }
 
-function syncDeelnemersToMainConfig() {
-  // Schrijft de namen naar localStorage zodat index.html ze kan lezen
-  const namen = deelnemers.filter(d => d.actief).map(d => d.naam);
-  localStorage.setItem('wk26_deelnemers', JSON.stringify(namen));
+function copyUrl() {
+  navigator.clipboard.writeText(document.getElementById('share-url').value)
+    .then(()=>toast('Link gekopieerd ✓','success'));
 }
 
-// ═══════════════════════════════════════════
-//  BONUS OVERZICHT
-// ═══════════════════════════════════════════
-function renderBonus() {
-  const tbody = document.getElementById('bonus-table-body');
-  tbody.innerHTML = deelnemers.map(d => {
-    const b = bonusRows.find(r => r.naam === d.naam) || {};
-    const volledig = b.kampioen && b.finalist && b.s1;
+/* ══════════════════════════════════════════
+   BONUS OVERZICHT
+══════════════════════════════════════════ */
+async function renderBonus() {
+  try {
+    const rows = await sbFetch('GET','bonus','?select=*');
+    bonusRows = rows;
+    localStorage.setItem('wk26_admin_bonus', JSON.stringify(rows));
+    // Update kampioen in deelnemers
+    rows.forEach(r => {
+      const d = deelnemers.find(x=>x.naam===r.speler);
+      if (d) d.kampioen = r.kampioen||'';
+    });
+    saveDeelnemers();
+  } catch {}
+
+  const tbody = document.getElementById('bonus-tbody');
+  tbody.innerHTML = deelnemers.map(d=>{
+    const b = bonusRows.find(r=>r.naam===d.naam)||{};
+    const vol = !!(b.kampioen && b.finalist);
     return `<tr>
-      <td>
-        <div class="player-cell">
-          <div class="player-avatar-sm">${d.naam.slice(0,2).toUpperCase()}</div>
-          <span class="player-name-cell">${d.naam}</span>
-        </div>
-      </td>
-      <td style="font-size:13px">${b.kampioen ? '🏆 '+b.kampioen : '<span style="color:var(--text3)">—</span>'}</td>
-      <td style="font-size:13px">${b.finalist ? '🥈 '+b.finalist : '<span style="color:var(--text3)">—</span>'}</td>
-      <td style="font-size:13px;color:var(--text2)">${b.s1 || '<span style="color:var(--text3)">—</span>'}</td>
-      <td style="font-size:13px;color:var(--text2)">${b.s2 || '<span style="color:var(--text3)">—</span>'}</td>
-      <td style="font-size:13px;color:var(--text2)">${b.s3 || '<span style="color:var(--text3)">—</span>'}</td>
-      <td><span class="badge ${volledig ? 'badge-green' : 'badge-gray'}">${volledig ? 'Ingevuld' : 'Ontbreekt'}</span></td>
+      <td><div class="pl-cell"><div class="pl-av">${d.naam.slice(0,2).toUpperCase()}</div><span class="pl-name">${d.naam}</span></div></td>
+      <td>${b.kampioen?'🏆 '+b.kampioen:'<span style="color:var(--text3)">—</span>'}</td>
+      <td>${b.finalist?'🥈 '+b.finalist:'<span style="color:var(--text3)">—</span>'}</td>
+      <td style="color:var(--text2)">${b.scorer1||'<span style="color:var(--text3)">—</span>'}</td>
+      <td style="color:var(--text2)">${b.scorer2||'<span style="color:var(--text3)">—</span>'}</td>
+      <td style="color:var(--text2)">${b.scorer3||'<span style="color:var(--text3)">—</span>'}</td>
+      <td><span class="badge ${vol?'badge-green':'badge-gray'}">${vol?'✓ Ingevuld':'Ontbreekt'}</span></td>
     </tr>`;
   }).join('');
 }
 
-// ═══════════════════════════════════════════
-//  SUPABASE CONFIG
-// ═══════════════════════════════════════════
-function loadSBConfig() {
-  document.getElementById('sb-url').value = localStorage.getItem('wk26_sb_url') || '';
-  document.getElementById('sb-key').value = localStorage.getItem('wk26_sb_key') || '';
+function slaEindresultaat() {
+  const r = {
+    kampioen: document.getElementById('res-kampioen').value.trim(),
+    finalist: document.getElementById('res-finalist').value.trim(),
+    scorer1: document.getElementById('res-s1').value.trim(),
+    scorer2: document.getElementById('res-s2').value.trim(),
+    scorer3: document.getElementById('res-s3').value.trim(),
+  };
+  localStorage.setItem('wk26_eindresultaat', JSON.stringify(r));
+  toast('Eindresultaat opgeslagen ✓','success');
 }
 
-function saveSBConfig() {
+/* ══════════════════════════════════════════
+   SUPABASE CONFIG
+══════════════════════════════════════════ */
+function laadSBConfig() {
+  const keyInp = document.getElementById('sb-key');
+  const saved = localStorage.getItem('wk26_sb_key');
+  if (saved) keyInp.value = saved;
+}
+
+function saveSB() {
   const url = document.getElementById('sb-url').value.trim();
   const key = document.getElementById('sb-key').value.trim();
-  if (!url || !key) { toast('Vul beide velden in', 'error'); return; }
+  if (!key) { toast('Vul de anon key in','error'); return; }
   localStorage.setItem('wk26_sb_url', url);
   localStorage.setItem('wk26_sb_key', key);
-  toast('Supabase config opgeslagen ✓', 'success');
+  toast('Supabase config opgeslagen ✓','success');
 }
 
-async function testSBConnection() {
-  const url = document.getElementById('sb-url').value.trim();
-  const key = document.getElementById('sb-key').value.trim();
-  const el  = document.getElementById('sb-test-result');
-  if (!url || !key) { el.textContent = '⚠ Vul eerst URL en key in'; el.style.color = 'var(--yellow)'; return; }
-  el.textContent = 'Bezig…'; el.style.color = 'var(--text3)';
+async function testSB() {
+  const el = document.getElementById('sb-result');
+  el.textContent='Testen…'; el.style.color='var(--text3)';
   try {
-    const res = await fetch(`${url}/rest/v1/bonus?limit=1`, {
-      headers: { 'apikey': key, 'Authorization': `Bearer ${key}` }
-    });
-    if (res.ok) {
-      el.textContent = '✓ Verbinding geslaagd!'; el.style.color = 'var(--green)';
-    } else {
-      el.textContent = `✗ Fout: ${res.status}`; el.style.color = 'var(--red)';
-    }
-  } catch {
-    el.textContent = '✗ Kan Supabase niet bereiken'; el.style.color = 'var(--red)';
+    await sbFetch('GET','bonus',null,'?limit=1');
+    el.textContent='✓ Verbinding geslaagd!'; el.style.color='var(--green)';
+  } catch(e) {
+    el.textContent=`✗ Mislukt (${e.message}) — check je anon key`; el.style.color='var(--red)';
   }
-}
-
-function toggleKeyVisibility() {
-  const inp = document.getElementById('sb-key');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
 }
 
 function copySQL() {
-  const sql = document.querySelector('.code-block').textContent;
-  navigator.clipboard.writeText(sql).then(() => toast('SQL gekopieerd ✓', 'success'));
+  navigator.clipboard.writeText(document.querySelector('.code-block').textContent)
+    .then(()=>toast('SQL gekopieerd ✓','success'));
 }
 
-// ═══════════════════════════════════════════
-//  API CONFIG
-// ═══════════════════════════════════════════
-function loadAPIConfig() {
-  document.getElementById('football-api-key').value = localStorage.getItem('wk26_football_key') || '';
+function toggleVis(id) {
+  const inp = document.getElementById(id);
+  inp.type = inp.type==='password' ? 'text' : 'password';
 }
 
-function saveAPIKey() {
-  const key = document.getElementById('football-api-key').value.trim();
-  localStorage.setItem('wk26_football_key', key);
-  toast('API sleutel opgeslagen ✓', 'success');
+/* ══════════════════════════════════════════
+   API CONFIG
+══════════════════════════════════════════ */
+function laadAPIConfig() {
+  const saved = localStorage.getItem('wk26_football_key');
+  if (saved) document.getElementById('football-key').value = saved;
+  const test = localStorage.getItem('wk26_testmodus');
+  document.getElementById('tog-test').checked = test !== 'false';
 }
 
-async function testAPI() {
-  const key = document.getElementById('football-api-key').value.trim();
-  const el  = document.getElementById('api-test-result');
-  if (!key) { el.textContent = '⚠ Vul eerst een API sleutel in'; el.style.color = 'var(--yellow)'; return; }
-  el.textContent = 'Bezig…'; el.style.color = 'var(--text3)';
+function saveFootball() {
+  localStorage.setItem('wk26_football_key', document.getElementById('football-key').value.trim());
+  toast('API token opgeslagen ✓','success');
+}
+
+async function testProxy() {
+  const el = document.getElementById('api-result');
+  el.textContent='Testen…'; el.style.color='var(--text3)';
   try {
-    const res = await fetch('https://api.football-data.org/v4/competitions/2000', {
-      headers: { 'X-Auth-Token': key }
-    });
-    if (res.ok) {
-      const data = await res.json();
-      el.textContent = `✓ Verbonden: ${data.name || 'WK 2026'}`; el.style.color = 'var(--green)';
+    const r = await fetch('https://wk-2026-eta.vercel.app/api/scores');
+    if (r.ok) {
+      const d = await r.json();
+      const n = (d.matches||[]).length;
+      el.textContent=`✓ Proxy werkt · ${n} wedstrijden`; el.style.color='var(--green)';
     } else {
-      el.textContent = `✗ Fout: ${res.status} — check je API sleutel`; el.style.color = 'var(--red)';
+      el.textContent=`✗ HTTP ${r.status}`; el.style.color='var(--red)';
     }
   } catch {
-    el.textContent = '✗ Kan API niet bereiken'; el.style.color = 'var(--red)';
+    el.textContent='✗ Proxy niet bereikbaar'; el.style.color='var(--red)';
   }
 }
 
-function toggleFootballKey() {
-  const inp = document.getElementById('football-api-key');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
+function saveTestmodus() {
+  localStorage.setItem('wk26_testmodus', document.getElementById('tog-test').checked ? 'true' : 'false');
+  toast('Testmodus ingesteld ✓','success');
 }
 
-function saveAPISettings() {
-  const interval = document.getElementById('refresh-interval').value;
-  localStorage.setItem('wk26_refresh_interval', interval);
-  toast('API instellingen opgeslagen ✓', 'success');
+/* ══════════════════════════════════════════
+   PUNTENSYSTEEM
+══════════════════════════════════════════ */
+function laadPunten() {
+  const p = JSON.parse(localStorage.getItem('wk26_punten_config')||'null');
+  if (!p) return;
+  ['exact','winnaar','kampioen','finalist','scorer1','scorer2','scorer3'].forEach(k=>{
+    const el = document.getElementById('pts-'+k);
+    if (el && p[k]!==undefined) el.value = p[k];
+  });
 }
 
-// ═══════════════════════════════════════════
-//  WEDSTRIJDEN
-// ═══════════════════════════════════════════
-function slaManualUitslagOp() {
-  const id    = parseInt(document.getElementById('manual-match-id').value);
-  const thuis = document.getElementById('manual-thuis-naam').value.trim();
-  const uit   = document.getElementById('manual-uit-naam').value.trim();
-  const st    = parseInt(document.getElementById('manual-thuis-score').value);
-  const su    = parseInt(document.getElementById('manual-uit-score').value);
-  const status = document.getElementById('manual-status').value;
-
-  if (!id || !thuis || !uit) { toast('Vul ID en teamnamen in', 'error'); return; }
-
-  const bestaand = manualResults.findIndex(r => r.match_id === id);
-  const entry = { match_id: id, thuis_naam: thuis, uit_naam: uit, score_thuis: isNaN(st)?null:st, score_uit: isNaN(su)?null:su, status };
-
-  if (bestaand >= 0) manualResults[bestaand] = entry;
-  else manualResults.push(entry);
-
-  localStorage.setItem('wk26_manual_results', JSON.stringify(manualResults));
-  renderManualResults();
-  toast('Uitslag opgeslagen ✓', 'success');
-}
-
-function renderManualResults() {
-  const el = document.getElementById('manual-results-list');
-  if (!manualResults.length) {
-    el.innerHTML = '<div style="font-size:13px;color:var(--text3);text-align:center;padding:20px 0">Nog geen handmatige uitslagen.</div>';
-    return;
-  }
-  el.innerHTML = manualResults.map((r, i) => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
-      <div style="font-size:13px;color:var(--text2)">
-        <span style="font-family:var(--mono);color:var(--text3);margin-right:10px">#${r.match_id}</span>
-        ${r.thuis_naam} <strong style="color:var(--orange);font-family:var(--mono)">${r.score_thuis ?? '–'} – ${r.score_uit ?? '–'}</strong> ${r.uit_naam}
-        <span class="badge badge-gray" style="margin-left:8px">${r.status}</span>
-      </div>
-      <button class="btn btn-icon btn-sm btn-danger" onclick="removeManual(${i})">✕</button>
-    </div>`).join('');
-}
-
-function removeManual(i) {
-  manualResults.splice(i, 1);
-  localStorage.setItem('wk26_manual_results', JSON.stringify(manualResults));
-  renderManualResults();
-}
-
-// ═══════════════════════════════════════════
-//  BONUS EINDRESULTAAT
-// ═══════════════════════════════════════════
-function slaEindresultaat() {
-  const result = {
-    kampioen: document.getElementById('result-kampioen').value.trim(),
-    finalist:  document.getElementById('result-finalist').value.trim(),
-    scorer1:   document.getElementById('result-scorer1').value.trim(),
-    scorer2:   document.getElementById('result-scorer2').value.trim(),
-    scorer3:   document.getElementById('result-scorer3').value.trim(),
-  };
-  localStorage.setItem('wk26_eindresultaat', JSON.stringify(result));
-  toast('Eindresultaat opgeslagen. Bonuspunten worden nu berekend.', 'success');
-}
-
-// ═══════════════════════════════════════════
-//  PUNTENSYSTEEM
-// ═══════════════════════════════════════════
 function savePunten() {
-  const config = {
+  const p = {
     exact:    parseInt(document.getElementById('pts-exact').value),
     winnaar:  parseInt(document.getElementById('pts-winnaar').value),
     kampioen: parseInt(document.getElementById('pts-kampioen').value),
@@ -1566,87 +755,52 @@ function savePunten() {
     scorer1:  parseInt(document.getElementById('pts-scorer1').value),
     scorer2:  parseInt(document.getElementById('pts-scorer2').value),
     scorer3:  parseInt(document.getElementById('pts-scorer3').value),
-    verlengingen: document.getElementById('toggle-verlenging').checked,
-    penalties:    document.getElementById('toggle-penalties').checked,
   };
-  localStorage.setItem('wk26_punten_config', JSON.stringify(config));
-  toast('Puntensysteem opgeslagen ✓', 'success');
+  localStorage.setItem('wk26_punten_config', JSON.stringify(p));
+  toast('Puntensysteem opgeslagen ✓','success');
 }
 
-// ═══════════════════════════════════════════
-//  INSTELLINGEN
-// ═══════════════════════════════════════════
-function saveInstellingen() {
+/* ══════════════════════════════════════════
+   INSTELLINGEN
+══════════════════════════════════════════ */
+function saveInst() {
   localStorage.setItem('wk26_poule_naam', document.getElementById('poule-naam').value);
-  localStorage.setItem('wk26_poule_url',  document.getElementById('poule-url').value);
-  const url = document.getElementById('poule-url').value.trim();
-  if (url) document.getElementById('share-url').value = url;
-  toast('Instellingen opgeslagen ✓', 'success');
+  toast('Instellingen opgeslagen ✓','success');
 }
 
-function copyUrl() {
-  const url = document.getElementById('share-url').value;
-  navigator.clipboard.writeText(url).then(() => toast('Link gekopieerd ✓', 'success'));
+function wipeBevestig() {
+  if (!confirm('Weet je zeker dat je alle voorspellingen wilt wissen uit Supabase?')) return;
+  const url = localStorage.getItem('wk26_sb_url') || SB_URL_DEFAULT;
+  const key = localStorage.getItem('wk26_sb_key') || '';
+  if (!key) { toast('Geen Supabase key ingesteld','error'); return; }
+  fetch(`${url}/rest/v1/voorspellingen?id=neq.00000000-0000-0000-0000-000000000000`, {
+    method:'DELETE',
+    headers:{'apikey':key,'Authorization':`Bearer ${key}`}
+  }).then(()=>toast('Voorspellingen gewist','error')).catch(()=>toast('Wissen mislukt','error'));
 }
 
-function confirmWipe(wat) {
-  const bevestig = confirm(`Weet je zeker dat je ${wat === 'alles' ? 'alles' : 'alle voorspellingen'} wilt wissen? Dit kan niet ongedaan worden gemaakt.`);
-  if (!bevestig) return;
-  if (wat === 'alles') {
-    localStorage.removeItem('wk26_admin_deelnemers');
-    localStorage.removeItem('wk26_admin_bonus');
-    localStorage.removeItem('wk26_manual_results');
-    toast('Poule gereset. Herlaad de pagina.', 'error');
-  } else {
-    localStorage.removeItem('wk26_manual_results');
-    manualResults = [];
-    toast('Voorspellingen gewist', 'error');
-  }
-}
-
-function refreshData() {
-  renderDashboard();
-  toast('Data ververst ✓', 'success');
-}
-
-// ═══════════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════════
-function toast(msg, type = '') {
+/* ══════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════ */
+function toast(msg, type='') {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `show ${type}`;
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.className = '', 3000);
+  t.textContent=msg; t.className=`show ${type}`;
+  clearTimeout(t._t); t._t=setTimeout(()=>t.className='',3000);
 }
 
-// ═══════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-  // Laad opgeslagen instellingen
-  const naam = localStorage.getItem('wk26_poule_naam');
-  if (naam) document.getElementById('poule-naam').value = naam;
-  const url = localStorage.getItem('wk26_poule_url');
-  if (url) {
-    document.getElementById('poule-url').value = url;
-    document.getElementById('share-url').value = url;
-  }
-
-  const punten = JSON.parse(localStorage.getItem('wk26_punten_config') || 'null');
-  if (punten) {
-    ['exact','winnaar','kampioen','finalist','scorer1','scorer2','scorer3'].forEach(k => {
-      const el = document.getElementById('pts-' + k);
-      if (el && punten[k] !== undefined) el.value = punten[k];
-    });
-  }
-
-  renderManualResults();
+  const saved = localStorage.getItem('wk26_sb_key');
+  if (saved) { /* alvast in state */ }
   renderDashboard();
-
-  // Sync deelnemers naar main app
-  syncDeelnemersToMainConfig();
+  syncDeelnemers();
 });
+
+function syncDeelnemers() {
+  localStorage.setItem('wk26_deelnemers', JSON.stringify(deelnemers.filter(d=>d.actief).map(d=>d.naam)));
+}
 </script>
 </body>
 </html>
