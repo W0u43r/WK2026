@@ -407,7 +407,6 @@ async function fetchLive() {
   try {
     const r = await fetch(
       `https://vercel.com/w0u43rs-projects/wk-2026`,
-      { headers: { 'X-Auth-Token': key } }
    
     );
     if (!r.ok) return [];
