@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>WK 2026 Poule · Familie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ===========================
+   CONFIGURATIE — pas dit aan
+   =========================== */
+
+/* Supabase credentials — vul in na aanmaken project */
+/* Zie README.md voor instructies */
+
+:root {
+  /* WK 2026 palet: zwart, wit, goud */
+  --wk-black:   #0A0A0A;
+  --wk-white:   #F5F2EC;
+  --wk-gold:    #C9A84C;
+  --wk-gold-lt: #E8D18A;
+  --wk-gold-dk: #8B6914;
+  --wk-gray:    #1E1E1E;
+  --wk-gray-2:  #2A2A2A;
+  --wk-gray-3:  #3A3A3A;
+  --wk-muted:   #888880;
+  --wk-green:   #2D7D46;
+  --wk-red:     #C0392B;
+  --wk-blue:    #1A5FA8;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+
+  --transition: 200ms cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--wk-black);
+  color: var(--wk-white);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── GOLD GRAIN TEXTURE ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ── HEADER ── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  padding: 0 16px;
+}
+
+.header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.logo-wk {
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--wk-gold) 0%, var(--wk-gold-lt) 50%, var(--wk-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.logo-sub {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--wk-muted);
+  text-transform: uppercase;
+}
+
+.user-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-switcher select {
+  font-family: var(--font-body);
+  font-size: 13px;
+  background: var(--wk-gray-2);
+  color: var(--wk-white);
+  border: 1px solid var(--wk-gray-3);
+  border-radius: var(--radius-md);
+  padding: 6px 10px 6px 8px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.user-switcher select:focus { border-color: var(--wk-gold); }
+
+.user-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--wk-gold);
+  flex-shrink: 0;
+}
+
+/* ── NAV TABS ── */
+.nav-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 12px 16px 0;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+
+.nav-tab {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--wk-muted);
+  background: none;
+  border: none;
+  padding: 8px 16px 10px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.nav-tab:hover { color: var(--wk-white); }
+
+.nav-tab.active {
+  color: var(--wk-gold);
+  border-bottom-color: var(--wk-gold);
+}
+
+/* ── MAIN LAYOUT ── */
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 16px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── SECTION HEADER ── */
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--wk-gold) 0%, var(--wk-gold-lt) 60%, var(--wk-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+
+.section-sub {
+  font-size: 13px;
+  color: var(--wk-muted);
+  margin-top: 4px;
+}
+
+/* ── STAND TABLE ── */
+.stand-container {
+  background: var(--wk-gray);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.stand-row {
+  display: grid;
+  grid-template-columns: 32px 1fr 52px 40px 40px 40px;
+  align-items: center;
+  padding: 14px 20px;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: background var(--transition);
+}
+
+.stand-row:last-child { border-bottom: none; }
+.stand-row:hover { background: rgba(255,255,255,0.03); }
+
+.stand-row.header-row {
+  padding: 10px 20px;
+  background: rgba(201,168,76,0.06);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+
+.stand-row.header-row span {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--wk-gold-dk);
+}
+
+.rank-num {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--wk-muted);
+  text-align: center;
+}
+
+.rank-1 .rank-num { color: var(--wk-gold); }
+.rank-2 .rank-num { color: #C0C0C0; }
+.rank-3 .rank-num { color: #CD7F32; }
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.player-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(201,168,76,0.2);
+  color: var(--wk-gold);
+  background: rgba(201,168,76,0.08);
+}
+
+.player-name {
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-champion {
+  font-size: 11px;
+  color: var(--wk-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 1px;
+}
+
+.pts-value {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--wk-gold);
+  text-align: right;
+}
+
+.stat-val {
+  font-size: 14px;
+  text-align: center;
+  color: var(--wk-muted);
+}
+.stat-val.correct { color: #5DB87A; }
+.stat-val.wrong { color: #E07070; }
+
+/* ── WEDSTRIJDEN ── */
+.matches-filter {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.matches-filter::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--wk-gray-3);
+  background: none;
+  color: var(--wk-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition);
+}
+
+.filter-btn.active, .filter-btn:hover {
+  background: var(--wk-gold);
+  border-color: var(--wk-gold);
+  color: var(--wk-black);
+}
+
+.round-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--wk-gold-dk);
+  margin: 24px 0 12px;
+}
+
+.round-label:first-of-type { margin-top: 0; }
+
+.match-card {
+  background: var(--wk-gray);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  margin-bottom: 10px;
+  transition: border-color var(--transition);
+}
+
+.match-card:hover { border-color: rgba(201,168,76,0.25); }
+
+.match-card.live {
+  border-color: rgba(93,184,122,0.4);
+  background: linear-gradient(135deg, rgba(45,125,70,0.08) 0%, var(--wk-gray) 60%);
+}
+
+.match-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.match-meta-left {
+  font-size: 11px;
+  color: var(--wk-muted);
+  letter-spacing: 0.04em;
+}
+
+.live-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #5DB87A;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #5DB87A;
+  animation: pulse-live 1.2s infinite;
+}
+
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.finished-badge {
+  font-size: 11px;
+  color: var(--wk-muted);
+  letter-spacing: 0.06em;
+}
+
+.upcoming-badge {
+  font-size: 11px;
+  color: var(--wk-gold);
+  letter-spacing: 0.06em;
+}
+
+.match-teams-row {
+  display: grid;
+  grid-template-columns: 1fr 100px 1fr;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.team-side {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-side.right {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.flag-emoji {
+  font-size: 28px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.team-label {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.score-display {
+  text-align: center;
+}
+
+.score-nums {
+  font-family: var(--font-display);
+  font-size: 32px;
+  letter-spacing: 2px;
+  color: var(--wk-white);
+  line-height: 1;
+}
+
+.score-nums.live { color: #5DB87A; }
+.score-nums.upcoming { color: var(--wk-gray-3); }
+
+.score-note {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--wk-muted);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.predictions-section {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 12px;
+}
+
+.pred-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--wk-muted);
+  margin-bottom: 8px;
+}
+
+.pred-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pred-pill {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  padding: 4px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  color: var(--wk-muted);
+  white-space: nowrap;
+}
+
+.pred-pill.me {
+  border-color: rgba(201,168,76,0.4);
+  color: var(--wk-gold);
+  background: rgba(201,168,76,0.06);
+}
+
+.pred-pill.exact {
+  border-color: rgba(93,184,122,0.5);
+  color: #5DB87A;
+  background: rgba(93,184,122,0.08);
+}
+
+.pred-pill.correct {
+  border-color: rgba(93,184,122,0.3);
+  color: #7DCCA0;
+  background: rgba(93,184,122,0.05);
+}
+
+.pred-pill.wrong {
+  border-color: rgba(192,57,43,0.3);
+  color: #E07070;
+  background: rgba(192,57,43,0.05);
+}
+
+.pred-pill.pending { opacity: 0.6; }
+
+/* ── VOORSPELLEN ── */
+.predict-notice {
+  background: rgba(201,168,76,0.07);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--wk-gold);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.predict-card {
+  background: var(--wk-gray);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  margin-bottom: 10px;
+}
+
+.predict-teams-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.predict-team {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.predict-team.right {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.score-input-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.score-inp {
+  width: 46px;
+  height: 48px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 26px;
+  background: var(--wk-gray-2);
+  color: var(--wk-white);
+  border: 1px solid var(--wk-gray-3);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color var(--transition);
+  -moz-appearance: textfield;
+}
+
+.score-inp::-webkit-outer-spin-button,
+.score-inp::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+.score-inp:focus { border-color: var(--wk-gold); }
+
+.score-sep {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--wk-muted);
+}
+
+/* Penalty toggle for KO */
+.penalty-row {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 13px;
+  color: var(--wk-muted);
+}
+
+.penalty-row.show { display: flex; }
+
+.penalty-toggle {
+  display: flex;
+  gap: 6px;
+}
+
+.pen-btn {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--wk-gray-3);
+  background: none;
+  color: var(--wk-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.pen-btn.active {
+  background: var(--wk-gold);
+  border-color: var(--wk-gold);
+  color: var(--wk-black);
+}
+
+/* ── BONUS SECTION ── */
+.bonus-card {
+  background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.03) 100%);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.bonus-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: var(--wk-gold);
+  margin-bottom: 4px;
+}
+
+.bonus-desc {
+  font-size: 13px;
+  color: var(--wk-muted);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.bonus-field {
+  margin-bottom: 16px;
+}
+
+.bonus-field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--wk-gold-dk);
+  margin-bottom: 8px;
+}
+
+.team-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--wk-gray-3) transparent;
+}
+
+.team-pick-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--wk-gray-3);
+  background: var(--wk-gray-2);
+  color: var(--wk-white);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.team-pick-btn:hover { border-color: rgba(201,168,76,0.4); }
+
+.team-pick-btn.selected {
+  border-color: var(--wk-gold);
+  background: rgba(201,168,76,0.1);
+  color: var(--wk-gold);
+}
+
+.scorer-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.scorer-input input {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 14px;
+  background: var(--wk-gray-2);
+  color: var(--wk-white);
+  border: 1px solid var(--wk-gray-3);
+  border-radius: var(--radius-md);
+  padding: 9px 12px;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.scorer-input input:focus { border-color: var(--wk-gold); }
+
+.scorer-num {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--wk-gold);
+  width: 24px;
+  text-align: center;
+}
+
+/* ── SAVE BUTTON ── */
+.save-btn {
+  width: 100%;
+  padding: 14px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 2px;
+  background: var(--wk-gold);
+  color: var(--wk-black);
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition);
+  margin-top: 16px;
+}
+
+.save-btn:hover {
+  background: var(--wk-gold-lt);
+  transform: translateY(-1px);
+}
+
+.save-btn:active { transform: translateY(0); }
+
+.save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--wk-gray);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--wk-white);
+  font-size: 14px;
+  padding: 12px 24px;
+  border-radius: 100px;
+  z-index: 999;
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  white-space: nowrap;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.success { border-color: rgba(93,184,122,0.5); color: #5DB87A; }
+.toast.error { border-color: rgba(192,57,43,0.4); color: #E07070; }
+
+/* ── UITLEG PANEL ── */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.rule-card {
+  background: var(--wk-gray);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.rule-pts {
+  font-family: var(--font-display);
+  font-size: 42px;
+  color: var(--wk-gold);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.rule-desc {
+  font-size: 13px;
+  color: var(--wk-muted);
+  line-height: 1.6;
+}
+
+.rule-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--wk-white);
+  margin-bottom: 4px;
+}
+
+/* ── LOADING ── */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
+  color: var(--wk-muted);
+  font-size: 14px;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--wk-gray-3);
+  border-top-color: var(--wk-gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--wk-muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* ── SETUP SCREEN ── */
+.setup-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--wk-black);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.setup-box {
+  background: var(--wk-gray);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  width: 100%;
+  max-width: 440px;
+}
+
+.setup-logo {
+  font-family: var(--font-display);
+  font-size: 48px;
+  letter-spacing: 3px;
+  background: linear-gradient(135deg, var(--wk-gold) 0%, var(--wk-gold-lt) 50%, var(--wk-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.setup-tagline {
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  color: var(--wk-muted);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.setup-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--wk-gold-dk);
+  margin-bottom: 8px;
+}
+
+.setup-input {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 15px;
+  background: var(--wk-gray-2);
+  color: var(--wk-white);
+  border: 1px solid var(--wk-gray-3);
+  border-radius: var(--radius-md);
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color var(--transition);
+  margin-bottom: 16px;
+}
+
+.setup-input:focus { border-color: var(--wk-gold); }
+
+.setup-btn {
+  width: 100%;
+  padding: 13px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 2px;
+  background: var(--wk-gold);
+  color: var(--wk-black);
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.setup-btn:hover { background: var(--wk-gold-lt); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .stand-row {
+    grid-template-columns: 28px 1fr 48px 36px 36px;
+    padding: 12px 14px;
+    gap: 8px;
+  }
+
+  .stand-row .stat-val:last-child { display: none; }
+
+  .match-teams-row {
+    grid-template-columns: 1fr 80px 1fr;
+  }
+
+  .flag-emoji { font-size: 22px; }
+  .score-nums { font-size: 26px; }
+
+  .score-inp { width: 40px; height: 44px; font-size: 22px; }
+
+  .predict-team { font-size: 13px; }
+  .team-pick-btn { font-size: 12px; }
+
+  .section-title { font-size: 28px; }
+  .rule-pts { font-size: 34px; }
+}
+
+/* ── CONFIG BANNER ── */
+.config-banner {
+  background: rgba(192,57,43,0.1);
+  border: 1px solid rgba(192,57,43,0.3);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #E07070;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.config-banner a {
+  color: var(--wk-gold);
+  text-decoration: none;
+}
+
+.config-banner code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: rgba(255,255,255,0.06);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     CONFIGURATIE — vul dit aan na Supabase setup
+     ══════════════════════════════════════════ -->
+<script>
+const CONFIG = {
+  // ── Supabase ──────────────────────────────
+  // Stap 1: Maak gratis account op supabase.com
+  // Stap 2: Nieuw project aanmaken
+  // Stap 3: Kopieer de URL en anon key van Settings > API
+  SUPABASE_URL: '',           // bijv. 'https://xyzxyz.supabase.co'
+  SUPABASE_KEY: '',           // je anon/public key
+
+  // ── Deelnemers ───────────────────────────
+  // Voeg namen toe van alle spelers
+  DEELNEMERS: [
+    'Wouter', 'Anne-Charlotte', 'Maurits', 'Florine', 'Papa', 'Mama'
+  ],
+
+  // ── Punten ───────────────────────────────
+  PUNTEN_EXACT:    5,   // exacte score geraden
+  PUNTEN_WINNAAR:  3,   // juiste winnaar (niet exacte score)
+  PUNTEN_KAMPIOEN: 10,  // kampioen voorspeld
+  PUNTEN_FINALIST: 5,   // finalist voorspeld
+  PUNTEN_SCORER_1: 8,   // topscorer #1 geraden
+  PUNTEN_SCORER_2: 5,   // topscorer #2 geraden
+  PUNTEN_SCORER_3: 3,   // topscorer #3 geraden
+
+  // ── API ──────────────────────────────────
+  // Gratis tier: football-data.org — registreer voor gratis API key
+  // WK competitie ID = 2000
+  FOOTBALL_API_KEY: '',       // je football-data.org API key
+  WK_ID: 2000,
+};
+</script>
+
+<!-- ══════════════════════════════════════════
+     WK 2026 TEAMS & VLAGGEN
+     ══════════════════════════════════════════ -->
+<script>
+// 48 deelnemende landen WK 2026 met vlaggen-emoji
+const WK_TEAMS = [
+  { id: 1, naam: 'Argentinië',    vlag: '🇦🇷', groep: 'A' },
+  { id: 2, naam: 'Australië',     vlag: '🇦🇺', groep: 'A' },
+  { id: 3, naam: 'België',        vlag: '🇧🇪', groep: 'A' },
+  { id: 4, naam: 'Brazilië',      vlag: '🇧🇷', groep: 'B' },
+  { id: 5, naam: 'Canada',        vlag: '🇨🇦', groep: 'B' },
+  { id: 6, naam: 'Chili',         vlag: '🇨🇱', groep: 'B' },
+  { id: 7, naam: 'Colombia',      vlag: '🇨🇴', groep: 'C' },
+  { id: 8, naam: 'Denemarken',    vlag: '🇩🇰', groep: 'C' },
+  { id: 9, naam: 'Duitsland',     vlag: '🇩🇪', groep: 'C' },
+  { id:10, naam: 'Ecuador',       vlag: '🇪🇨', groep: 'D' },
+  { id:11, naam: 'Engeland',      vlag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', groep: 'D' },
+  { id:12, naam: 'Frankrijk',     vlag: '🇫🇷', groep: 'D' },
+  { id:13, naam: 'Ghana',         vlag: '🇬🇭', groep: 'E' },
+  { id:14, naam: 'Iran',          vlag: '🇮🇷', groep: 'E' },
+  { id:15, naam: 'Italië',        vlag: '🇮🇹', groep: 'E' },
+  { id:16, naam: 'Ivoorkust',     vlag: '🇨🇮', groep: 'F' },
+  { id:17, naam: 'Japan',         vlag: '🇯🇵', groep: 'F' },
+  { id:18, naam: 'Kroatië',       vlag: '🇭🇷', groep: 'F' },
+  { id:19, naam: 'Marokko',       vlag: '🇲🇦', groep: 'G' },
+  { id:20, naam: 'Mexico',        vlag: '🇲🇽', groep: 'G' },
+  { id:21, naam: 'Nederland',     vlag: '🇳🇱', groep: 'G' },
+  { id:22, naam: 'Nigeria',       vlag: '🇳🇬', groep: 'H' },
+  { id:23, naam: 'Noorwegen',     vlag: '🇳🇴', groep: 'H' },
+  { id:24, naam: 'Oekraïne',      vlag: '🇺🇦', groep: 'H' },
+  { id:25, naam: 'Panama',        vlag: '🇵🇦', groep: 'I' },
+  { id:26, naam: 'Peru',          vlag: '🇵🇪', groep: 'I' },
+  { id:27, naam: 'Polen',         vlag: '🇵🇱', groep: 'I' },
+  { id:28, naam: 'Portugal',      vlag: '🇵🇹', groep: 'J' },
+  { id:29, naam: 'Roemenië',      vlag: '🇷🇴', groep: 'J' },
+  { id:30, naam: 'Saoedi-Arabië', vlag: '🇸🇦', groep: 'J' },
+  { id:31, naam: 'Senegal',       vlag: '🇸🇳', groep: 'K' },
+  { id:32, naam: 'Servië',        vlag: '🇷🇸', groep: 'K' },
+  { id:33, naam: 'Slovenië',      vlag: '🇸🇮', groep: 'K' },
+  { id:34, naam: 'Spanje',        vlag: '🇪🇸', groep: 'L' },
+  { id:35, naam: 'Turkije',       vlag: '🇹🇷', groep: 'L' },
+  { id:36, naam: 'Uruguay',       vlag: '🇺🇾', groep: 'L' },
+  { id:37, naam: 'USA',           vlag: '🇺🇸', groep: 'A' },
+  { id:38, naam: 'Venezuela',     vlag: '🇻🇪', groep: 'B' },
+  { id:39, naam: 'Zuid-Korea',    vlag: '🇰🇷', groep: 'C' },
+  { id:40, naam: 'Zuid-Afrika',   vlag: '🇿🇦', groep: 'D' },
+  { id:41, naam: 'Ierland',       vlag: '🇮🇪', groep: 'E' },
+  { id:42, naam: 'Schotland',     vlag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', groep: 'F' },
+  { id:43, naam: 'Wales',         vlag: '🏴󠁧󠁢󠁷󠁬󠁳󠁿', groep: 'G' },
+  { id:44, naam: 'Tsjechië',      vlag: '🇨🇿', groep: 'H' },
+  { id:45, naam: 'Hongarije',     vlag: '🇭🇺', groep: 'I' },
+  { id:46, naam: 'Griekenland',   vlag: '🇬🇷', groep: 'J' },
+  { id:47, naam: 'Egypte',        vlag: '🇪🇬', groep: 'K' },
+  { id:48, naam: 'Kameroen',      vlag: '🇨🇲', groep: 'L' },
+];
+
+// ── STATE ──────────────────────────────────
+let huidigSpeler = localStorage.getItem('wk26_speler') || '';
+let wedstrijden  = [];         // uit API + Supabase
+let voorspellingen = {};       // { matchId: { speler: { thuis, uit, penWinnaar } } }
+let bonusData    = {};         // { speler: { kampioen, finalist, scorers } }
+let stand        = [];         // berekende stand
+let activeTab    = 'stand';
+let activeFilter = 'alles';
+
+// ── SUPABASE HELPERS ───────────────────────
+async function sb(method, table, body, query = '') {
+  if (!CONFIG.SUPABASE_URL || !CONFIG.SUPABASE_KEY) {
+    throw new Error('Supabase niet geconfigureerd');
+  }
+  const url = `${CONFIG.SUPABASE_URL}/rest/v1/${table}${query}`;
+  const res = await fetch(url, {
+    method,
+    headers: {
+      'apikey': CONFIG.SUPABASE_KEY,
+      'Authorization': `Bearer ${CONFIG.SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': method === 'POST' ? 'resolution=merge-duplicates,return=representation' : 'return=representation',
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  if (!res.ok) throw new Error(`${res.status}: ${await res.text()}`);
+  return res.json();
+}
+
+// GET
+const sbGet  = (table, query = '') => sb('GET', table, null, query);
+// UPSERT (insert or update)
+const sbUpsert = (table, data)     => sb('POST', table, data);
+
+// ── FOOTBALL DATA API ──────────────────────
+async function fetchLiveScores() {
+  if (!CONFIG.FOOTBALL_API_KEY) return [];
+  try {
+    const res = await fetch(
+      `https://api.football-data.org/v4/competitions/${CONFIG.WK_ID}/matches?status=LIVE,FINISHED,SCHEDULED`,
+      { headers: { 'X-Auth-Token': CONFIG.FOOTBALL_API_KEY } }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.matches || [];
+  } catch { return []; }
+}
+
+// ── DATA LADEN ─────────────────────────────
+async function laadAlles() {
+  try {
+    // Voorspellingen laden
+    const rows = await sbGet('voorspellingen');
+    voorspellingen = {};
+    rows.forEach(r => {
+      if (!voorspellingen[r.match_id]) voorspellingen[r.match_id] = {};
+      voorspellingen[r.match_id][r.speler] = {
+        thuis: r.score_thuis,
+        uit:   r.score_uit,
+        penWinnaar: r.pen_winnaar,
+      };
+    });
+
+    // Bonus laden
+    const bRows = await sbGet('bonus');
+    bonusData = {};
+    bRows.forEach(r => {
+      bonusData[r.speler] = {
+        kampioen: r.kampioen,
+        finalist: r.finalist,
+        scorers: [r.scorer1, r.scorer2, r.scorer3].filter(Boolean),
+      };
+    });
+
+    // Live scores
+    const apiWedstrijden = await fetchLiveScores();
+    wedstrijden = verwerkWedstrijden(apiWedstrijden);
+
+    berekenStand();
+    renderAlles();
+  } catch (e) {
+    console.error(e);
+    // Demo modus als geen verbinding
+    wedstrijden = getDemoWedstrijden();
+    berekenStand();
+    renderAlles();
+  }
+}
+
+function verwerkWedstrijden(apiData) {
+  if (!apiData.length) return getDemoWedstrijden();
+  return apiData.map(m => ({
+    id: m.id,
+    datum: new Date(m.utcDate),
+    fase: m.stage,
+    thuis: {
+      naam: m.homeTeam.name,
+      vlag: teamVlag(m.homeTeam.name),
+    },
+    uit: {
+      naam: m.awayTeam.name,
+      vlag: teamVlag(m.awayTeam.name),
+    },
+    status: m.status,
+    score: {
+      thuis: m.score.fullTime.home,
+      uit:   m.score.fullTime.away,
+    },
+    scoreNa90: {
+      thuis: m.score.regularTime?.home ?? m.score.fullTime.home,
+      uit:   m.score.regularTime?.away ?? m.score.fullTime.away,
+    },
+    penalties: m.score.penalties ? {
+      thuis: m.score.penalties.home,
+      uit:   m.score.penalties.away,
+    } : null,
+    minuut: m.minute || null,
+    isKO: !['GROUP_STAGE'].includes(m.stage),
+  }));
+}
+
+function teamVlag(naam) {
+  const t = WK_TEAMS.find(x => naam.toLowerCase().includes(x.naam.toLowerCase().split(' ')[0].toLowerCase()));
+  return t ? t.vlag : '🏳️';
+}
+
+// ── DEMO DATA (als API niet geconfigureerd) ─
+function getDemoWedstrijden() {
+  const nu = new Date();
+  return [
+    {
+      id: 1001, datum: new Date(nu.getTime() - 3600000),
+      fase: 'GROUP_STAGE', isKO: false,
+      thuis: { naam: 'Nederland', vlag: '🇳🇱' },
+      uit:   { naam: 'Senegal',   vlag: '🇸🇳' },
+      status: 'IN_PLAY', minuut: 67,
+      score: { thuis: 2, uit: 1 }, scoreNa90: { thuis: 2, uit: 1 }, penalties: null,
+    },
+    {
+      id: 1002, datum: new Date(nu.getTime() - 86400000),
+      fase: 'GROUP_STAGE', isKO: false,
+      thuis: { naam: 'Duitsland',     vlag: '🇩🇪' },
+      uit:   { naam: 'Saoedi-Arabië', vlag: '🇸🇦' },
+      status: 'FINISHED', minuut: null,
+      score: { thuis: 3, uit: 0 }, scoreNa90: { thuis: 3, uit: 0 }, penalties: null,
+    },
+    {
+      id: 1003, datum: new Date(nu.getTime() + 172800000),
+      fase: 'GROUP_STAGE', isKO: false,
+      thuis: { naam: 'Brazilië', vlag: '🇧🇷' },
+      uit:   { naam: 'Spanje',   vlag: '🇪🇸' },
+      status: 'SCHEDULED', minuut: null,
+      score: { thuis: null, uit: null }, scoreNa90: { thuis: null, uit: null }, penalties: null,
+    },
+    {
+      id: 1004, datum: new Date(nu.getTime() + 864000000),
+      fase: 'ROUND_OF_16', isKO: true,
+      thuis: { naam: '1e Groep A', vlag: '🏳️' },
+      uit:   { naam: '2e Groep B', vlag: '🏳️' },
+      status: 'SCHEDULED', minuut: null,
+      score: { thuis: null, uit: null }, scoreNa90: { thuis: null, uit: null }, penalties: null,
+    },
+  ];
+}
+
+// ── PUNTEN BEREKENING ──────────────────────
+function berekenPuntenVoorMatch(match, voorspelling) {
+  if (match.status !== 'FINISHED') return 0;
+  if (!voorspelling) return 0;
+
+  const echThuis = match.scoreNa90.thuis;
+  const echUit   = match.scoreNa90.uit;
+  const vThuis   = voorspelling.thuis;
+  const vUit     = voorspelling.uit;
+
+  if (vThuis === null || vUit === null) return 0;
+
+  // Exacte score na 90/120 min
+  if (vThuis === echThuis && vUit === echUit) return CONFIG.PUNTEN_EXACT;
+
+  // Juiste winnaar
+  const echWinnaar = echThuis > echUit ? 'thuis' : echUit > echThuis ? 'uit' : 'gelijk';
+  let vWinnaar = vThuis > vUit ? 'thuis' : vUit > vThuis ? 'uit' : 'gelijk';
+
+  // KO: bij gelijkspel na 120 min kijk naar penalty voorspelling
+  if (match.isKO && echWinnaar === 'gelijk' && match.penalties) {
+    const echPenW = match.penalties.thuis > match.penalties.uit ? 'thuis' : 'uit';
+    if (voorspelling.penWinnaar === echPenW) return CONFIG.PUNTEN_WINNAAR;
+    return 0;
+  }
+
+  if (vWinnaar === echWinnaar) return CONFIG.PUNTEN_WINNAAR;
+  return 0;
+}
+
+function berekenStand() {
+  const totalen = {};
+  CONFIG.DEELNEMERS.forEach(s => {
+    totalen[s] = { punten: 0, exact: 0, winnaar: 0, fout: 0 };
+  });
+
+  // Match punten
+  wedstrijden.filter(m => m.status === 'FINISHED').forEach(match => {
+    const matchVoorsps = voorspellingen[match.id] || {};
+    CONFIG.DEELNEMERS.forEach(speler => {
+      const v = matchVoorsps[speler];
+      const pts = berekenPuntenVoorMatch(match, v);
+      totalen[speler].punten += pts;
+      if (pts === CONFIG.PUNTEN_EXACT) totalen[speler].exact++;
+      else if (pts === CONFIG.PUNTEN_WINNAAR) totalen[speler].winnaar++;
+      else if (v) totalen[speler].fout++;
+    });
+  });
+
+  // Bonus punten (kampioen/finalist/scorers worden pas bijgeteld na WK)
+  // Hier alvast de structuur voor latere berekening
+
+  stand = CONFIG.DEELNEMERS
+    .map(s => ({ naam: s, ...totalen[s] }))
+    .sort((a, b) => b.punten - a.punten || b.exact - a.exact);
+}
+
+// ── RENDER STAND ──────────────────────────
+function renderStand() {
+  const container = document.getElementById('panel-stand');
+  const isDemo = !CONFIG.SUPABASE_URL;
+  let html = `<div class="section-header">
+    <div class="section-title">Ranglijst</div>
+    <div class="section-sub">${wedstrijden.filter(m=>m.status==='FINISHED').length} wedstrijden gespeeld</div>
+  </div>`;
+
+  if (isDemo) html += `<div class="config-banner">⚙️ <strong>Demo modus</strong> — Configureer Supabase en de football API in de <code>CONFIG</code> bovenaan het bestand om echte data te zien. Zie <a href="#" onclick="switchTab('uitleg')">Uitleg & Setup</a>.</div>`;
+
+  html += `<div class="stand-container">
+    <div class="stand-row header-row">
+      <span>#</span><span>Naam</span><span style="text-align:right">Punten</span>
+      <span style="text-align:center">Exact</span>
+      <span style="text-align:center">✓W</span>
+      <span style="text-align:center">✗</span>
+    </div>`;
+
+  stand.forEach((speler, i) => {
+    const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
+    const bonus = bonusData[speler.naam];
+    const kampioenTekst = bonus?.kampioen
+      ? `${teamEmoji(bonus.kampioen)} ${bonus.kampioen}`
+      : '—';
+
+    html += `<div class="stand-row ${rankClass}">
+      <div class="rank-num">${i+1}</div>
+      <div class="player-info">
+        <div class="player-avatar">${speler.naam.slice(0,2).toUpperCase()}</div>
+        <div>
+          <div class="player-name">${speler.naam}${speler.naam === huidigSpeler ? ' <span style="font-size:10px;color:var(--wk-gold)">●</span>' : ''}</div>
+          <div class="player-champion">🏆 ${kampioenTekst}</div>
+        </div>
+      </div>
+      <div class="pts-value">${speler.punten}</div>
+      <div class="stat-val correct">${speler.exact}</div>
+      <div class="stat-val">${speler.winnaar}</div>
+      <div class="stat-val wrong">${speler.fout}</div>
+    </div>`;
+  });
+
+  html += `</div>`;
+  container.innerHTML = html;
+}
+
+function teamEmoji(naam) {
+  const t = WK_TEAMS.find(x => x.naam === naam);
+  return t ? t.vlag : '🏳️';
+}
+
+// ── RENDER WEDSTRIJDEN ─────────────────────
+function renderWedstrijden() {
+  const container = document.getElementById('panel-wedstrijden');
+  let html = `<div class="section-header">
+    <div class="section-title">Wedstrijden</div>
+    <div class="section-sub">Live uitslagen en jouw voorspellingen</div>
+  </div>
+  <div class="matches-filter">
+    <button class="filter-btn ${activeFilter==='alles'?'active':''}" onclick="setFilter('alles')">Alles</button>
+    <button class="filter-btn ${activeFilter==='live'?'active':''}" onclick="setFilter('live')">🔴 Live</button>
+    <button class="filter-btn ${activeFilter==='groep'?'active':''}" onclick="setFilter('groep')">Groepsfase</button>
+    <button class="filter-btn ${activeFilter==='ko'?'active':''}" onclick="setFilter('ko')">Knock-out</button>
+    <button class="filter-btn ${activeFilter==='gespeeld'?'active':''}" onclick="setFilter('gespeeld')">Afgespeeld</button>
+  </div>`;
+
+  let gefiltered = wedstrijden.slice();
+  if (activeFilter === 'live') gefiltered = gefiltered.filter(m => m.status === 'IN_PLAY');
+  if (activeFilter === 'groep') gefiltered = gefiltered.filter(m => !m.isKO);
+  if (activeFilter === 'ko') gefiltered = gefiltered.filter(m => m.isKO);
+  if (activeFilter === 'gespeeld') gefiltered = gefiltered.filter(m => m.status === 'FINISHED');
+
+  if (!gefiltered.length) {
+    html += `<div class="empty-state">Geen wedstrijden gevonden voor dit filter.</div>`;
+  }
+
+  // Groepeer per fase
+  const fasen = [...new Set(gefiltered.map(m => faseLabel(m)))];
+  fasen.forEach(fase => {
+    const batch = gefiltered.filter(m => faseLabel(m) === fase);
+    html += `<div class="round-label">${fase}</div>`;
+    batch.forEach(match => {
+      html += renderMatchCard(match);
+    });
+  });
+
+  container.innerHTML = html;
+}
+
+function faseLabel(match) {
+  const map = {
+    'GROUP_STAGE': 'Groepsfase',
+    'ROUND_OF_16': 'Achtste finales',
+    'QUARTER_FINALS': 'Kwartfinales',
+    'SEMI_FINALS': 'Halve finales',
+    'THIRD_PLACE': 'Strijd om 3e plaats',
+    'FINAL': '⚽ Finale',
+  };
+  return map[match.fase] || match.fase;
+}
+
+function renderMatchCard(match) {
+  const isLive     = match.status === 'IN_PLAY';
+  const isFinished = match.status === 'FINISHED';
+  const isUpcoming = match.status === 'SCHEDULED' || match.status === 'TIMED';
+
+  const datumStr = match.datum.toLocaleDateString('nl-NL', { weekday:'short', day:'numeric', month:'short' })
+    + ' · ' + match.datum.toLocaleTimeString('nl-NL', { hour:'2-digit', minute:'2-digit' });
+
+  let badgeHtml = '';
+  if (isLive) badgeHtml = `<span class="live-badge"><span class="live-dot"></span>LIVE ${match.minuut ? match.minuut+"'" : ''}</span>`;
+  else if (isFinished) badgeHtml = `<span class="finished-badge">Afgespeeld</span>`;
+  else badgeHtml = `<span class="upcoming-badge">${match.datum.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}</span>`;
+
+  // Score display
+  let scoreHtml = '';
+  if (isLive || isFinished) {
+    scoreHtml = `<div class="score-nums ${isLive?'live':''}">${match.score.thuis} – ${match.score.uit}</div>`;
+    if (isFinished && match.isKO && match.penalties) {
+      scoreHtml += `<div class="score-note">na pen. ${match.penalties.thuis}–${match.penalties.uit}</div>`;
+    } else if (isFinished && match.isKO) {
+      scoreHtml += `<div class="score-note">na 120 min</div>`;
+    }
+  } else {
+    scoreHtml = `<div class="score-nums upcoming">– –</div>`;
+    scoreHtml += `<div class="score-note">${datumStr.split(' · ')[0]}</div>`;
+  }
+
+  // Voorspellingen
+  const matchVoorsps = voorspellingen[match.id] || {};
+  let predHtml = '';
+  if (Object.keys(matchVoorsps).length || isFinished) {
+    predHtml = `<div class="predictions-section"><div class="pred-label">Voorspellingen</div><div class="pred-pills">`;
+    CONFIG.DEELNEMERS.forEach(speler => {
+      const v = matchVoorsps[speler];
+      const isMe = speler === huidigSpeler;
+      if (!v) {
+        predHtml += `<span class="pred-pill pending">${speler}: –</span>`;
+        return;
+      }
+      let pts = berekenPuntenVoorMatch(match, v);
+      let cls = isMe ? 'me' : '';
+      if (isFinished) {
+        cls += pts === CONFIG.PUNTEN_EXACT ? ' exact' : pts === CONFIG.PUNTEN_WINNAAR ? ' correct' : ' wrong';
+      }
+      let label = `${v.thuis}–${v.uit}`;
+      if (match.isKO && v.penWinnaar) label += ` (${v.penWinnaar==='thuis' ? match.thuis.naam : match.uit.naam} pen)`;
+      if (isFinished) label += pts > 0 ? ` +${pts}` : ' ✗';
+      predHtml += `<span class="pred-pill ${cls.trim()}">${speler}: ${label}</span>`;
+    });
+    predHtml += `</div></div>`;
+  }
+
+  return `<div class="match-card ${isLive?'live':''}">
+    <div class="match-meta">
+      <span class="match-meta-left">${datumStr}</span>
+      ${badgeHtml}
+    </div>
+    <div class="match-teams-row">
+      <div class="team-side">
+        <span class="flag-emoji">${match.thuis.vlag}</span>
+        <span class="team-label">${match.thuis.naam}</span>
+      </div>
+      <div class="score-display">${scoreHtml}</div>
+      <div class="team-side right">
+        <span class="flag-emoji">${match.uit.vlag}</span>
+        <span class="team-label">${match.uit.naam}</span>
+      </div>
+    </div>
+    ${predHtml}
+  </div>`;
+}
+
+// ── RENDER VOORSPELLEN ─────────────────────
+function renderVoorspellen() {
+  const container = document.getElementById('panel-voorspellen');
+  const openWedstrijden = wedstrijden.filter(m => m.status === 'SCHEDULED' || m.status === 'TIMED');
+
+  let html = `<div class="section-header">
+    <div class="section-title">Voorspellen</div>
+    <div class="section-sub">Jouw voorspellingen · ${huidigSpeler}</div>
+  </div>`;
+
+  if (!huidigSpeler) {
+    html += `<div class="config-banner">Selecteer eerst je naam rechtsboven.</div>`;
+    container.innerHTML = html;
+    return;
+  }
+
+  // Bonus sectie
+  html += renderBonusForm();
+
+  if (!openWedstrijden.length) {
+    html += `<div class="empty-state">Alle wedstrijden zijn al gespeeld of live.<br>Ga naar <strong>Wedstrijden</strong> om de resultaten te bekijken.</div>`;
+    container.innerHTML = html;
+    return;
+  }
+
+  html += `<div class="round-label" style="margin-top:24px">Openstaande wedstrijden</div>`;
+
+  openWedstrijden.forEach(match => {
+    const v = (voorspellingen[match.id] || {})[huidigSpeler] || {};
+    const isKO = match.isKO;
+
+    html += `<div class="predict-card">
+      <div class="match-meta" style="margin-bottom:10px">
+        <span class="match-meta-left">${match.datum.toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short'})} · ${faseLabel(match)}</span>
+      </div>
+      <div class="predict-teams-row">
+        <div class="predict-team">
+          <span class="flag-emoji">${match.thuis.vlag}</span>
+          <span>${match.thuis.naam}</span>
+        </div>
+        <div class="score-input-group">
+          <input class="score-inp" type="number" min="0" max="20" step="1"
+            id="inp-${match.id}-thuis" value="${v.thuis ?? ''}"
+            ${isKO ? `oninput="checkKOGelijkspel(${match.id})"` : ''}
+            placeholder="0" />
+          <span class="score-sep">–</span>
+          <input class="score-inp" type="number" min="0" max="20" step="1"
+            id="inp-${match.id}-uit" value="${v.uit ?? ''}"
+            ${isKO ? `oninput="checkKOGelijkspel(${match.id})"` : ''}
+            placeholder="0" />
+        </div>
+        <div class="predict-team right">
+          <span class="flag-emoji">${match.uit.vlag}</span>
+          <span>${match.uit.naam}</span>
+        </div>
+      </div>
+      ${isKO ? `<div class="penalty-row" id="pen-row-${match.id}">
+        <span>Na strafschoppen wint:</span>
+        <div class="penalty-toggle">
+          <button class="pen-btn ${v.penWinnaar==='thuis'?'active':''}"
+            id="pen-thuis-${match.id}"
+            onclick="selectPen(${match.id}, 'thuis')">${match.thuis.naam}</button>
+          <button class="pen-btn ${v.penWinnaar==='uit'?'active':''}"
+            id="pen-uit-${match.id}"
+            onclick="selectPen(${match.id}, 'uit')">${match.uit.naam}</button>
+        </div>
+      </div>` : ''}
+    </div>`;
+  });
+
+  html += `<button class="save-btn" onclick="slaVoorspellingenOp()">Opslaan</button>`;
+  container.innerHTML = html;
+
+  // Herstel KO states
+  openWedstrijden.filter(m=>m.isKO).forEach(m => checkKOGelijkspel(m.id));
+}
+
+let penVoorspellingen = {}; // { matchId: 'thuis'|'uit' }
+
+function selectPen(matchId, kant) {
+  penVoorspellingen[matchId] = kant;
+  const tBtn = document.getElementById(`pen-thuis-${matchId}`);
+  const uBtn = document.getElementById(`pen-uit-${matchId}`);
+  if (tBtn) tBtn.classList.toggle('active', kant==='thuis');
+  if (uBtn) uBtn.classList.toggle('active', kant==='uit');
+}
+
+function checkKOGelijkspel(matchId) {
+  const tVal = parseInt(document.getElementById(`inp-${matchId}-thuis`)?.value);
+  const uVal = parseInt(document.getElementById(`inp-${matchId}-uit`)?.value);
+  const row  = document.getElementById(`pen-row-${matchId}`);
+  if (!row) return;
+  const isGelijk = !isNaN(tVal) && !isNaN(uVal) && tVal === uVal;
+  row.classList.toggle('show', isGelijk);
+}
+
+async function slaVoorspellingenOp() {
+  if (!huidigSpeler) { toonToast('Selecteer eerst je naam!', 'error'); return; }
+
+  const btn = document.querySelector('.save-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Opslaan...'; }
+
+  const openWedstrijden = wedstrijden.filter(m => m.status === 'SCHEDULED' || m.status === 'TIMED');
+  const rows = [];
+
+  openWedstrijden.forEach(match => {
+    const tInp = document.getElementById(`inp-${match.id}-thuis`);
+    const uInp = document.getElementById(`inp-${match.id}-uit`);
+    if (!tInp || !uInp) return;
+    const t = tInp.value.trim();
+    const u = uInp.value.trim();
+    if (t === '' || u === '') return;
+
+    const tNum = parseInt(t);
+    const uNum = parseInt(u);
+    if (isNaN(tNum) || isNaN(uNum)) return;
+
+    const penWinnaar = penVoorspellingen[match.id] || (voorspellingen[match.id]?.[huidigSpeler]?.penWinnaar) || null;
+
+    rows.push({
+      match_id: match.id,
+      speler: huidigSpeler,
+      score_thuis: tNum,
+      score_uit: uNum,
+      pen_winnaar: tNum === uNum && match.isKO ? penWinnaar : null,
+    });
+  });
+
+  try {
+    if (CONFIG.SUPABASE_URL) {
+      await sbUpsert('voorspellingen', rows);
+    }
+    // Update lokale state
+    rows.forEach(r => {
+      if (!voorspellingen[r.match_id]) voorspellingen[r.match_id] = {};
+      voorspellingen[r.match_id][r.speler] = { thuis: r.score_thuis, uit: r.score_uit, penWinnaar: r.pen_winnaar };
+    });
+    berekenStand();
+    toonToast('Voorspellingen opgeslagen ✓', 'success');
+  } catch (e) {
+    toonToast('Fout bij opslaan. Controleer verbinding.', 'error');
+    console.error(e);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Opslaan'; }
+  }
+}
+
+// ── BONUS FORM ─────────────────────────────
+function renderBonusForm() {
+  const bonus = bonusData[huidigSpeler] || {};
+  const scorers = bonus.scorers || ['', '', ''];
+
+  let html = `<div class="bonus-card">
+    <div class="bonus-title">Bonusvragen</div>
+    <div class="bonus-desc">Vul dit in vóór het WK begint. Niet meer aanpasbaar na 11 juni 2026.<br>
+      Kampioen = <strong style="color:var(--wk-gold)">${CONFIG.PUNTEN_KAMPIOEN} punten</strong> · Finalist = <strong style="color:var(--wk-gold)">${CONFIG.PUNTEN_FINALIST} punten</strong> · Topscorer geraden = tot <strong style="color:var(--wk-gold)">${CONFIG.PUNTEN_SCORER_1} punten</strong></div>
+
+    <div class="bonus-field">
+      <label>Wereldkampioen</label>
+      <div class="team-picker" id="kampioen-picker">`;
+
+  WK_TEAMS.slice(0, 24).forEach(t => {
+    const isSelected = bonus.kampioen === t.naam;
+    html += `<button class="team-pick-btn ${isSelected?'selected':''}"
+      onclick="selectBonus('kampioen', '${t.naam}', this)">
+      ${t.vlag} ${t.naam}
+    </button>`;
+  });
+  html += `</div></div>
+
+    <div class="bonus-field">
+      <label>Finalist (verliezend finalist)</label>
+      <div class="team-picker" id="finalist-picker">`;
+
+  WK_TEAMS.slice(0, 24).forEach(t => {
+    const isSelected = bonus.finalist === t.naam;
+    html += `<button class="team-pick-btn ${isSelected?'selected':''}"
+      onclick="selectBonus('finalist', '${t.naam}', this)">
+      ${t.vlag} ${t.naam}
+    </button>`;
+  });
+  html += `</div></div>
+
+    <div class="bonus-field">
+      <label>Top 3 Topscorers</label>
+      <div class="scorer-input"><span class="scorer-num">1</span><input type="text" placeholder="Naam speler" id="scorer-1" value="${scorers[0]||''}"></div>
+      <div class="scorer-input"><span class="scorer-num">2</span><input type="text" placeholder="Naam speler" id="scorer-2" value="${scorers[1]||''}"></div>
+      <div class="scorer-input"><span class="scorer-num">3</span><input type="text" placeholder="Naam speler" id="scorer-3" value="${scorers[2]||''}"></div>
+    </div>
+
+    <button class="save-btn" onclick="slaBonus()" style="margin-top:8px">Bonusvragen opslaan</button>
+  </div>`;
+
+  return html;
+}
+
+let bonusSelecties = {};
+
+function selectBonus(veld, waarde, btn) {
+  bonusSelecties[veld] = waarde;
+  const container = btn.closest('.team-picker');
+  container.querySelectorAll('.team-pick-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+async function slaBonus() {
+  if (!huidigSpeler) { toonToast('Selecteer eerst je naam!', 'error'); return; }
+  const kampioen = bonusSelecties.kampioen || bonusData[huidigSpeler]?.kampioen || null;
+  const finalist = bonusSelecties.finalist || bonusData[huidigSpeler]?.finalist || null;
+  const scorer1  = document.getElementById('scorer-1')?.value.trim() || null;
+  const scorer2  = document.getElementById('scorer-2')?.value.trim() || null;
+  const scorer3  = document.getElementById('scorer-3')?.value.trim() || null;
+
+  const row = { speler: huidigSpeler, kampioen, finalist, scorer1, scorer2, scorer3 };
+
+  try {
+    if (CONFIG.SUPABASE_URL) {
+      await sbUpsert('bonus', [row]);
+    }
+    bonusData[huidigSpeler] = { kampioen, finalist, scorers: [scorer1, scorer2, scorer3].filter(Boolean) };
+    berekenStand();
+    toonToast('Bonusvragen opgeslagen ✓', 'success');
+  } catch (e) {
+    toonToast('Fout bij opslaan.', 'error');
+    console.error(e);
+  }
+}
+
+// ── RENDER UITLEG ──────────────────────────
+function renderUitleg() {
+  const container = document.getElementById('panel-uitleg');
+  container.innerHTML = `
+  <div class="section-header">
+    <div class="section-title">Regels & Setup</div>
+    <div class="section-sub">Hoe werkt de poule?</div>
+  </div>
+
+  <div class="round-label">Punten per wedstrijd</div>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-pts">${CONFIG.PUNTEN_EXACT}</div>
+      <div class="rule-title">Exacte score</div>
+      <div class="rule-desc">Juiste uitslag geraden, bijv. 2–1 = 2–1</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-pts">${CONFIG.PUNTEN_WINNAAR}</div>
+      <div class="rule-title">Juiste winnaar</div>
+      <div class="rule-desc">Winnaar of gelijkspel correct, maar niet de exacte score</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-pts">0</div>
+      <div class="rule-title">Fout</div>
+      <div class="rule-desc">Winnaar verkeerd voorspeld</div>
+    </div>
+  </div>
+
+  <div class="round-label">Knock-out rondes</div>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-desc" style="line-height:1.8">Voorspel de score <strong style="color:var(--wk-white)">na maximaal 120 minuten</strong>. Staat het na 120 min gelijk, dan geef je ook aan wie er wint via strafschoppen. Punten gelden voor de stand na 120 min.</div>
+    </div>
+  </div>
+
+  <div class="round-label">Bonuspunten</div>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-pts">${CONFIG.PUNTEN_KAMPIOEN}</div>
+      <div class="rule-title">Wereldkampioen</div>
+      <div class="rule-desc">Juiste kampioen voorspeld vóór het WK</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-pts">${CONFIG.PUNTEN_FINALIST}</div>
+      <div class="rule-title">Finalist</div>
+      <div class="rule-desc">Verliezend finalist juist voorspeld</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-pts">${CONFIG.PUNTEN_SCORER_1}/${CONFIG.PUNTEN_SCORER_2}/${CONFIG.PUNTEN_SCORER_3}</div>
+      <div class="rule-title">Topscorers top 3</div>
+      <div class="rule-desc">#1 geraden = ${CONFIG.PUNTEN_SCORER_1}pts · #2 = ${CONFIG.PUNTEN_SCORER_2}pts · #3 = ${CONFIG.PUNTEN_SCORER_3}pts</div>
+    </div>
+  </div>
+
+  <div class="round-label">Setup instructies (eenmalig)</div>
+  <div style="background:var(--wk-gray);border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius-lg);padding:20px;font-size:13px;line-height:2;color:var(--wk-muted)">
+    <p><strong style="color:var(--wk-white)">Stap 1</strong> — Maak gratis account op <a href="https://supabase.com" style="color:var(--wk-gold)">supabase.com</a></p>
+    <p><strong style="color:var(--wk-white)">Stap 2</strong> — Nieuw project aanmaken (gratis tier)</p>
+    <p><strong style="color:var(--wk-white)">Stap 3</strong> — Ga naar SQL Editor en voer uit:<br>
+    <code style="font-family:var(--font-mono);font-size:11px;background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:3px;display:inline-block;margin:4px 0">
+    CREATE TABLE voorspellingen (id uuid default gen_random_uuid() primary key, match_id int, speler text, score_thuis int, score_uit int, pen_winnaar text, created_at timestamptz default now(), UNIQUE(match_id, speler));<br>
+    CREATE TABLE bonus (id uuid default gen_random_uuid() primary key, speler text unique, kampioen text, finalist text, scorer1 text, scorer2 text, scorer3 text);</code></p>
+    <p><strong style="color:var(--wk-white)">Stap 4</strong> — Settings → API → kopieer URL en anon key</p>
+    <p><strong style="color:var(--wk-white)">Stap 5</strong> — Plak in de <code style="font-family:var(--font-mono);font-size:11px;background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:3px">CONFIG</code> bovenaan dit bestand</p>
+    <p><strong style="color:var(--wk-white)">Stap 6</strong> — Football API: gratis account op <a href="https://www.football-data.org" style="color:var(--wk-gold)">football-data.org</a>, API key in CONFIG zetten</p>
+    <p><strong style="color:var(--wk-white)">Stap 7</strong> — Push naar GitHub Pages (zelfde repo als IJslandblog of nieuwe repo)</p>
+    <p><strong style="color:var(--wk-white)">Stap 8</strong> — Deel de link met familie via WhatsApp 🎉</p>
+  </div>`;
+}
+
+// ── TABS & FILTERS ─────────────────────────
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + tab));
+
+  if (tab === 'stand') renderStand();
+  if (tab === 'wedstrijden') renderWedstrijden();
+  if (tab === 'voorspellen') renderVoorspellen();
+  if (tab === 'uitleg') renderUitleg();
+}
+
+function setFilter(filter) {
+  activeFilter = filter;
+  renderWedstrijden();
+}
+
+// ── TOAST ──────────────────────────────────
+function toonToast(msg, type = '') {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.className = 'toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.className = `toast ${type}`;
+  setTimeout(() => t.classList.add('show'), 10);
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── RENDER ALLES ───────────────────────────
+function renderAlles() {
+  switchTab(activeTab);
+}
+
+// ── INITIALISATIE ──────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Speler selector bouwen
+  const sel = document.getElementById('speler-select');
+  CONFIG.DEELNEMERS.forEach(naam => {
+    const opt = document.createElement('option');
+    opt.value = naam;
+    opt.textContent = naam;
+    if (naam === huidigSpeler) opt.selected = true;
+    sel.appendChild(opt);
+  });
+
+  sel.addEventListener('change', () => {
+    huidigSpeler = sel.value;
+    localStorage.setItem('wk26_speler', huidigSpeler);
+    renderAlles();
+  });
+
+  // Data laden
+  laadAlles();
+
+  // Auto-refresh elke 60 seconden voor live scores
+  setInterval(laadAlles, 60000);
+});
+</script>
+
+<!-- ══════════════════════════════════════════
+     HTML STRUCTUUR
+     ══════════════════════════════════════════ -->
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-wk">WK 2026</span>
+      <span class="logo-sub">Poule</span>
+    </div>
+    <div class="user-switcher">
+      <span class="user-dot"></span>
+      <select id="speler-select">
+        <option value="" disabled selected>Kies naam</option>
+      </select>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-tab="stand" onclick="switchTab('stand')">Stand</button>
+    <button class="nav-tab" data-tab="wedstrijden" onclick="switchTab('wedstrijden')">Wedstrijden</button>
+    <button class="nav-tab" data-tab="voorspellen" onclick="switchTab('voorspellen')">Voorspellen</button>
+    <button class="nav-tab" data-tab="uitleg" onclick="switchTab('uitleg')">Regels & Setup</button>
+  </div>
+</header>
+
+<main>
+  <div id="panel-stand"       class="panel active">
+    <div class="loading-state"><div class="spinner"></div>Stand laden...</div>
+  </div>
+  <div id="panel-wedstrijden" class="panel">
+    <div class="loading-state"><div class="spinner"></div>Wedstrijden laden...</div>
+  </div>
+  <div id="panel-voorspellen" class="panel">
+    <div class="loading-state"><div class="spinner"></div>Laden...</div>
+  </div>
+  <div id="panel-uitleg"      class="panel"></div>
+</main>
+
+</body>
+</html>
