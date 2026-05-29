@@ -3,7 +3,7 @@
 // Productie: competitie 2000 = WK 2026
 // ▼ Verander naar 2000 als WK 2026 begint op 11 juni 2026
 
-const COMPETITIE_ID = 2021;
+const COMPETITIE_ID = 2000;
 const API_TOKEN     = '55228a28932e43939447a577a695fada';
 
 export default async function handler(req, res) {
