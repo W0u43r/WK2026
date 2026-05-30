@@ -260,8 +260,8 @@ let bonusSel     = {};
    SUPABASE
 ══════════════════════════════════════════ */
 async function sbFetch(method, table, body=null, query='') {
-  const key = SB_KEY || localStorage.getItem('wk26_sb_key') || '';
-  if (!key) throw new Error('geen_key');
+  const key = localStorage.getItem('wk26_sb_key') || '';
+  if (!key) throw new Error('geen_key — stel Supabase key in via admin.html');
   const r = await fetch(`${SB_URL}/rest/v1/${table}${query}`, {
     method,
     headers: {
@@ -690,21 +690,26 @@ function selBonus(veld, waarde, btn) {
 }
 
 async function slaBonus() {
-  if (!huidigSpeler) { toast('Kies eerst je naam','error'); return; }
+  if (!huidigSpeler) { toast('Kies eerst je naam rechtsboven','error'); return; }
+  const key = localStorage.getItem('wk26_sb_key') || '';
+  if (!key) { toast('Geen Supabase key — stel in via admin.html → Supabase setup','error'); return; }
   const row = {
-    speler: huidigSpeler,
+    speler:   huidigSpeler,
     kampioen: bonusSel.kampioen || bonusData[huidigSpeler]?.kampioen || null,
     finalist: bonusSel.finalist || bonusData[huidigSpeler]?.finalist || null,
-    scorer1: document.getElementById('sc1')?.value.trim()||null,
-    scorer2: document.getElementById('sc2')?.value.trim()||null,
-    scorer3: document.getElementById('sc3')?.value.trim()||null,
+    scorer1:  document.getElementById('sc1')?.value.trim() || null,
+    scorer2:  document.getElementById('sc2')?.value.trim() || null,
+    scorer3:  document.getElementById('sc3')?.value.trim() || null,
   };
   try {
-    await sbUpsert('bonus',[row]);
-    bonusData[huidigSpeler] = {kampioen:row.kampioen,finalist:row.finalist,scorers:[row.scorer1,row.scorer2,row.scorer3].filter(Boolean)};
+    await sbUpsert('bonus', [row]);
+    bonusData[huidigSpeler] = { kampioen:row.kampioen, finalist:row.finalist, scorers:[row.scorer1,row.scorer2,row.scorer3].filter(Boolean) };
     berekenStand();
     toast('Bonusvragen opgeslagen ✓','success');
-  } catch { toast('Fout — check je Supabase key in admin.html','error'); }
+  } catch(e) {
+    console.error('Bonus opslaan mislukt:', e);
+    toast(`Opslaan mislukt (${e.message}) — check Supabase verbinding`,'error');
+  }
 }
 
 function checkKO(matchId) {
@@ -721,6 +726,8 @@ function selPen(matchId, kant) {
 
 async function slaOp() {
   if (!huidigSpeler) { toast('Kies eerst je naam','error'); return; }
+  const key = localStorage.getItem('wk26_sb_key') || '';
+  if (!key) { toast('Geen Supabase key — stel in via admin.html → Supabase setup','error'); return; }
   const btn = document.querySelector('.save-btn');
   if (btn) { btn.disabled=true; btn.textContent='Bezig…'; }
   const open = wedstrijden.filter(m=>m.status==='SCHEDULED'||m.status==='TIMED');
